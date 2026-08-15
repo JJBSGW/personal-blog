@@ -41,11 +41,47 @@ body {
   border: 1px solid #e4e4e7;
   border-radius: 0.5rem;
   overflow-x: auto;
+  position: relative;
 }
 
 .dark .prose pre {
   background: #1c1917;
   border-color: #292524;
+}
+
+/* 代码块语言标签 */
+.prose pre[data-language] {
+  padding-top: 2.4rem;
+}
+.prose pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.45rem;
+  right: 0.75rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  color: #a1a1aa;
+  font-family: var(--font-mono);
+}
+.dark .prose pre[data-language]::before {
+  color: #57534e;
+}
+
+/* ---------- 入场动画(尊重系统"减弱动态效果"设置) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .animate-fade-up {
+    animation: fade-in-up 0.5s ease-out both;
+  }
 }
 
 /* ---------- 代码高亮(精简主题,随明暗切换) ---------- */

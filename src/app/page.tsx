@@ -12,11 +12,23 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   return (
     <div className="space-y-8">
-      <section className="border-b border-zinc-200 pb-6 dark:border-zinc-800">
-        <h1 className="text-3xl font-bold tracking-tight">{siteConfig.name}</h1>
+      <section className="animate-fade-up border-b border-zinc-200 pb-6 dark:border-zinc-800">
+        <h1 className="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 bg-clip-text text-4xl font-bold tracking-tight text-transparent dark:from-indigo-400 dark:via-violet-400 dark:to-fuchsia-400">
+          {siteConfig.name}
+        </h1>
         <p className="mt-2 text-zinc-600 dark:text-zinc-400">
           {siteConfig.description}
         </p>
+        <div className="mt-4 flex flex-wrap gap-2 text-xs">
+          {["💻 技术笔记", "🔧 折腾记录", "📚 读书随笔"].map((chip) => (
+            <span
+              key={chip}
+              className="rounded-full border border-zinc-300 px-3 py-1 text-zinc-600 dark:border-zinc-700 dark:text-zinc-400"
+            >
+              {chip}
+            </span>
+          ))}
+        </div>
       </section>
 
       <section className="space-y-4">
@@ -26,7 +38,15 @@ export default async function Home({ searchParams }: PageProps<"/">) {
             <p className="mt-3">还没有文章。站长正在深夜赶稿…</p>
           </div>
         ) : (
-          posts.map((post) => <PostCard key={post.id} post={post} />)
+          posts.map((post, i) => (
+            <div
+              key={post.id}
+              className="animate-fade-up"
+              style={{ animationDelay: `${Math.min(i, 6) * 70}ms` }}
+            >
+              <PostCard post={post} />
+            </div>
+          ))
         )}
       </section>
 

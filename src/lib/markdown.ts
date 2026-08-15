@@ -61,3 +61,27 @@ export function rehypeHeadingIds() {
     );
   };
 }
+
+/** rehype 插件:给代码块补 data-language(供 CSS 显示语言标签) */
+export function rehypeCodeLang() {
+  return (tree: unknown) => {
+    visit(
+      tree as never,
+      "element",
+      (node: {
+        tagName: string;
+        properties?: Record<string, unknown>;
+        children?: { tagName?: string; properties?: Record<string, unknown> }[];
+      }) => {
+        if (node.tagName !== "pre") return;
+        const code = (node.children ?? []).find((c) => c.tagName === "code");
+        const cls = code?.properties?.className;
+        const joined = Array.isArray(cls) ? cls.join(" ") : String(cls ?? "");
+        const m = /language-([\w+-]+)/.exec(joined);
+        if (m) {
+          node.properties = { ...node.properties, "data-language": m[1] };
+        }
+      }
+    );
+  };
+}

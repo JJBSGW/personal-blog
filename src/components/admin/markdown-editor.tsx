@@ -3,7 +3,7 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
-import { rehypeHeadingIds } from "@/lib/markdown";
+import { rehypeCodeLang, rehypeHeadingIds } from "@/lib/markdown";
 
 export function MarkdownEditor({
   value,
@@ -46,6 +46,7 @@ export function MarkdownEditor({
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[
                   [rehypeHeadingIds, {}],
+                  [rehypeCodeLang, {}],
                   [rehypeHighlight, {}],
                 ]}
               >
