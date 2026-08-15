@@ -61,6 +61,21 @@ export async function getPublishedPostBySlug(slug: string) {
   });
 }
 
+export interface ArchiveItem {
+  slug: string;
+  title: string;
+  publishedAt: Date | null;
+}
+
+/** 归档页:全部可见文章,按时间倒序(前端再按年月分组) */
+export async function listPostsForArchive(): Promise<ArchiveItem[]> {
+  return prisma.post.findMany({
+    where: visibleWhere(),
+    orderBy: { publishedAt: "desc" },
+    select: { slug: true, title: true, publishedAt: true },
+  });
+}
+
 /** 上一篇 / 下一篇(按发布时间相邻,仅考虑可见文章) */
 export async function getPostNeighbors(post: {
   slug: string;
