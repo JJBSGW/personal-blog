@@ -37,23 +37,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col text-foreground">
-        {/* 丝绸织锦背景:SVG 湍流位移滤镜 + 布料层 + 金线层 + 高光(不参与交互) */}
-        <svg aria-hidden="true" focusable="false" className="absolute h-0 w-0">
-          <defs>
-            <filter id="silk-fabric" x="-25%" y="-25%" width="150%" height="150%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="4" seed="7" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="120" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-            <filter id="silk-gold" x="-25%" y="-25%" width="150%" height="150%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.015 0.04" numOctaves="3" seed="11" result="noise" />
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="70" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-          </defs>
-        </svg>
+        {/* 深红锦缎背景:光滑缎面 + 流动缎光 + 极简金线(不参与交互) */}
         <div className="silk-bg" aria-hidden="true">
           <div className="silk-fabric" />
-          <div className="silk-gold" />
           <div className="silk-sheen" />
+          <svg className="silk-gold" viewBox="0 0 1440 900" preserveAspectRatio="none">
+            <path vectorEffect="non-scaling-stroke" d="M-80,720 C 280,620 500,760 800,660 C 1100,560 1300,610 1520,530" />
+            <path vectorEffect="non-scaling-stroke" d="M-80,320 C 260,240 540,360 800,300 C 1060,240 1260,280 1520,200" />
+            <path vectorEffect="non-scaling-stroke" d="M220,-80 C 280,180 240,480 360,740 C 400,840 440,920 480,980" />
+            <path vectorEffect="non-scaling-stroke" d="M1180,-80 C 1120,180 1160,460 1060,720 C 1020,820 980,900 940,980" />
+          </svg>
         </div>
         <ThemeProvider>
           <Header />
