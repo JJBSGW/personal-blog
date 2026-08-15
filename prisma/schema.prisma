@@ -64,6 +64,8 @@ model Post {
   content     String // Markdown 正文
   status      PostStatus @default(DRAFT)
   publishedAt DateTime?
+  cover       String? // 封面图 URL
+  pinned      Boolean    @default(false) // 置顶
   viewCount   Int        @default(0) // 冗余计数,列表页直接展示
   category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   categoryId  String?

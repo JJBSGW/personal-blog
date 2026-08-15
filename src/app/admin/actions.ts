@@ -63,10 +63,12 @@ function parsePostForm(formData: FormData) {
   const status = formData.get("status") === PUBLISHED ? PUBLISHED : DRAFT;
   const categoryId = String(formData.get("categoryId") ?? "") || null;
   const tagSlugs = formData.getAll("tags").map(String);
+  const cover = String(formData.get("cover") ?? "").trim() || null;
+  const pinned = formData.get("pinned") === "on";
   // 定时发布:DRAFT + scheduledAt → 到点自动可见
   const scheduledRaw = String(formData.get("scheduledAt") ?? "").trim();
   const scheduledAt = scheduledRaw ? new Date(scheduledRaw) : null;
-  return { title, content, summary, rawSlug, status, categoryId, tagSlugs, scheduledAt };
+  return { title, content, summary, rawSlug, status, categoryId, tagSlugs, cover, pinned, scheduledAt };
 }
 
 // ---------- 文章 ----------
@@ -76,7 +78,7 @@ export async function createPost(
   formData: FormData
 ): Promise<FormState> {
   await requireAdmin();
-  const { title, content, summary, rawSlug, status, categoryId, tagSlugs, scheduledAt } =
+  const { title, content, summary, rawSlug, status, categoryId, tagSlugs, cover, pinned, scheduledAt } =
     parsePostForm(formData);
   if (!title) return { error: "标题不能为空" };
 
@@ -93,6 +95,8 @@ export async function createPost(
       content,
       status,
       publishedAt: status === PUBLISHED ? new Date() : scheduledAt,
+      cover,
+      pinned,
       categoryId,
       tags: { connect: validTags.map((t) => ({ slug: t.slug })) },
     },
@@ -113,7 +117,7 @@ export async function updatePost(
   const existing = await prisma.post.findUnique({ where: { id } });
   if (!existing) return { error: "文章不存在" };
 
-  const { title, content, summary, rawSlug, status, categoryId, tagSlugs, scheduledAt } =
+  const { title, content, summary, rawSlug, status, categoryId, tagSlugs, cover, pinned, scheduledAt } =
     parsePostForm(formData);
   if (!title) return { error: "标题不能为空" };
 
@@ -132,6 +136,8 @@ export async function updatePost(
       status,
       publishedAt:
         status === PUBLISHED ? existing.publishedAt ?? new Date() : scheduledAt,
+      cover,
+      pinned,
       categoryId,
       tags: { set: validTags.map((t) => ({ slug: t.slug })) },
     },

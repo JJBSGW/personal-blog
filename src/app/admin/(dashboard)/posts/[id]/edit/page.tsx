@@ -67,6 +67,8 @@ export default async function EditPostPage({
           categoryId: post.categoryId,
           tagSlugs: post.tags.map((t) => t.slug),
           scheduledAt,
+          cover: post.cover,
+          pinned: post.pinned,
         }}
         submitLabel="保存修改"
       />

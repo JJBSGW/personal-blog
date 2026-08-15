@@ -35,6 +35,8 @@ export function PostForm({
     categoryId?: string | null;
     tagSlugs?: string[];
     scheduledAt?: string;
+    cover?: string | null;
+    pinned?: boolean;
   };
   submitLabel: string;
 }) {
@@ -110,6 +112,19 @@ export function PostForm({
       </div>
 
       <div>
+        <label className="mb-1 block text-sm" htmlFor="post-cover">
+          封面图 URL(可选,从「媒体库」复制)
+        </label>
+        <input
+          id="post-cover"
+          name="cover"
+          defaultValue={initial?.cover ?? ""}
+          placeholder="/uploads/xxx.jpg 或 https://…"
+          className="h-10 w-full rounded-lg border border-zinc-300 bg-transparent px-3 font-mono text-sm outline-none focus:border-zinc-500 dark:border-zinc-700"
+        />
+      </div>
+
+      <div>
         <label className="mb-1 block text-sm">正文(Markdown)</label>
         <input type="hidden" name="content" value={content} />
         <MarkdownEditor value={content} onChange={setContent} />
@@ -165,6 +180,16 @@ export function PostForm({
           ))}
         </select>
       </div>
+
+      <label className="flex cursor-pointer items-center gap-2 text-sm">
+        <input
+          type="checkbox"
+          name="pinned"
+          defaultChecked={initial?.pinned ?? false}
+          className="accent-indigo-500"
+        />
+        📌 置顶(排在首页最前)
+      </label>
 
       <div>
         <p className="mb-1 text-sm">标签(可多选)</p>

@@ -21,6 +21,11 @@ export function PostCard({ post }: { post: PostWithRelations }) {
   return (
     <article className="glass group rounded-xl p-5 transition-colors">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400">
+        {post.pinned && (
+          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400">
+            📌 置顶
+          </span>
+        )}
         {post.category && (
           <Link
             href={`/categories/${post.category.slug}`}
@@ -32,7 +37,19 @@ export function PostCard({ post }: { post: PostWithRelations }) {
         <time>{formatDate(post.publishedAt)}</time>
         <span>约 {readingMinutes(post.content)} 分钟</span>
       </div>
-      <h2 className="mt-2 text-xl font-semibold leading-snug">
+
+      {post.cover && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={post.cover}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="mt-3 h-40 w-full rounded-lg object-cover"
+        />
+      )}
+
+      <h2 className="mt-3 text-xl font-semibold leading-snug">
         <Link href={`/posts/${post.slug}`} className="transition-colors group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
           {post.title}
         </Link>

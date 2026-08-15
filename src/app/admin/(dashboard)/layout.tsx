@@ -9,6 +9,7 @@ const links = [
   { href: "/admin/tags", label: "🏷️ 标签与分类" },
   { href: "/admin/comments", label: "💬 评论管理" },
   { href: "/admin/links", label: "🔗 友链管理" },
+  { href: "/admin/media", label: "🖼️ 媒体库" },
   { href: "/admin/resume", label: "👤 个人简历" },
   { href: "/admin/about", label: "ℹ️ 关于页" },
 ];

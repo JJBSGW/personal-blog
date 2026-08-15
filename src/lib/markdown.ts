@@ -85,3 +85,25 @@ export function rehypeCodeLang() {
     );
   };
 }
+
+/** rehype 插件:给正文 <img> 加懒加载与异步解码 */
+export function rehypeLazyImages() {
+  return (tree: unknown) => {
+    visit(
+      tree as never,
+      "element",
+      (node: {
+        tagName: string;
+        properties?: Record<string, unknown>;
+      }) => {
+        if (node.tagName === "img") {
+          node.properties = {
+            ...node.properties,
+            loading: "lazy",
+            decoding: "async",
+          };
+        }
+      }
+    );
+  };
+}

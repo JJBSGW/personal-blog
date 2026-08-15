@@ -131,6 +131,8 @@ export const PostScalarFieldEnum = {
   content: 'content',
   status: 'status',
   publishedAt: 'publishedAt',
+  cover: 'cover',
+  pinned: 'pinned',
   viewCount: 'viewCount',
   categoryId: 'categoryId',
   createdAt: 'createdAt',

@@ -36,6 +36,8 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-blog}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-blog}?sslmode=disable
       MEILISEARCH_URL: http://search:7700
       MEILISEARCH_KEY: ${MEILISEARCH_KEY}
+    volumes:
+      - uploads:/app/public/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -60,5 +62,6 @@ services:
 volumes:
   pgdata:
   msdata:
+  uploads:
   caddy_data:
   caddy_config:

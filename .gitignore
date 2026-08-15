@@ -37,6 +37,9 @@ yarn-error.log*
 /.cache
 /.npmrc
 
+# 上传的媒体文件(不入库,用卷持久化)
+/public/uploads
+
 # vercel
 .vercel
 
