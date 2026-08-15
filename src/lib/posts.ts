@@ -44,7 +44,7 @@ export async function listPublishedPosts(opts: ListOptions = {}): Promise<ListRe
   const [posts, total] = await Promise.all([
     prisma.post.findMany({
       where,
-      orderBy: { publishedAt: "desc" },
+      orderBy: [{ pinned: "desc" }, { publishedAt: "desc" }],
       skip: (page - 1) * pageSize,
       take: pageSize,
       include: { tags: true, category: true },

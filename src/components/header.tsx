@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getSiteConfig } from "@/lib/site-config";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { MobileMenu } from "@/components/mobile-menu";
 
 const nav = [
   { href: "/", label: "首页" },
@@ -15,7 +16,7 @@ export async function Header() {
   const site = await getSiteConfig();
   return (
     <header className="no-print sticky top-0 z-10 border-b border-zinc-200 bg-background/80 backdrop-blur dark:border-zinc-800">
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-5 px-4">
+      <div className="relative mx-auto flex h-14 w-full max-w-5xl items-center gap-4 px-4">
         <Link
           href="/"
           className="shrink-0 text-lg font-bold tracking-tight"
@@ -23,7 +24,8 @@ export async function Header() {
         >
           {site.name}
         </Link>
-        <nav className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+        {/* 桌面导航(移动端隐藏) */}
+        <nav className="hidden items-center gap-4 text-sm text-zinc-600 md:flex dark:text-zinc-400">
           {nav.map((n) => (
             <Link key={n.href} href={n.href} className="transition-colors hover:text-zinc-950 dark:hover:text-zinc-100">
               {n.label}
@@ -39,6 +41,7 @@ export async function Header() {
           />
         </form>
         <ThemeToggle />
+        <MobileMenu nav={nav} />
       </div>
     </header>
   );
