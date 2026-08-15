@@ -19,7 +19,7 @@ export function formatDate(d: Date | null | undefined): string {
 
 export function PostCard({ post }: { post: PostWithRelations }) {
   return (
-    <article className="group rounded-xl border border-zinc-200 p-5 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600">
+    <article className="glass group rounded-xl p-5 transition-colors">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400">
         {post.category && (
           <Link

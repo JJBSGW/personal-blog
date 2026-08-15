@@ -4,7 +4,7 @@ export function Toc({ content }: { content: string }) {
   const headings = extractHeadings(content).filter((h) => h.level >= 2);
   if (headings.length === 0) return null;
   return (
-    <nav className="rounded-xl border border-zinc-200 bg-zinc-50/60 p-4 dark:border-zinc-800 dark:bg-zinc-900/40">
+    <nav className="glass rounded-xl p-4">
       <p className="mb-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
         本页目录
       </p>

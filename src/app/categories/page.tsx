@@ -19,7 +19,7 @@ export default async function CategoriesPage() {
             <Link
               key={c.id}
               href={`/categories/${c.slug}`}
-              className="rounded-xl border border-zinc-200 p-4 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
+              className="glass rounded-xl p-4 transition-colors"
             >
               <p className="font-medium">{c.name}</p>
               <p className="mt-1 text-sm text-zinc-500">{c._count.posts} 篇文章</p>

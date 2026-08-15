@@ -33,7 +33,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
       <section className="space-y-4">
         {posts.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-zinc-300 p-10 text-center text-zinc-500 dark:border-zinc-700">
+          <div className="glass rounded-xl border border-dashed border-zinc-300 p-10 text-center text-zinc-500 dark:border-zinc-700">
             <p className="text-4xl">🦉</p>
             <p className="mt-3">还没有文章。站长正在深夜赶稿…</p>
           </div>

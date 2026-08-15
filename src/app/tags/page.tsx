@@ -22,7 +22,7 @@ export default async function TagsPage() {
             <Link
               key={t.id}
               href={`/tags/${t.slug}`}
-              className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm transition-colors hover:border-zinc-500 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+              className="glass rounded-full px-4 py-1.5 text-sm transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800"
             >
               #{t.name}
               <span className="ml-1.5 text-xs text-zinc-500">

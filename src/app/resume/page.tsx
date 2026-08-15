@@ -19,7 +19,7 @@ export default async function ResumePage() {
       </div>
 
       {/* 头部 */}
-      <header className="rounded-xl border border-zinc-200 p-6 dark:border-zinc-800">
+      <header className="glass rounded-xl p-6">
         <h2 className="text-2xl font-bold">{data.name}</h2>
         <p className="mt-1 text-zinc-600 dark:text-zinc-400">{data.title}</p>
         <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
@@ -110,7 +110,7 @@ export default async function ResumePage() {
 
 function ResumeItemCard({ item }: { item: { title: string; subtitle?: string; period?: string; description?: string; tags?: string[] } }) {
   return (
-    <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+    <div className="glass rounded-lg p-4">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3">
         <p className="font-medium">{item.title}</p>
         {item.period && (

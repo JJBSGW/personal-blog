@@ -97,7 +97,7 @@ export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
             {comments.map((c) => (
               <li
                 key={c.id}
-                className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800"
+                className="glass rounded-lg p-4"
               >
                 <div className="flex items-baseline justify-between gap-3">
                   <span className="font-medium">{c.author}</span>

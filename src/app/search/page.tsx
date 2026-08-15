@@ -74,7 +74,7 @@ export default async function SearchPage({ searchParams }: PageProps<"/search">)
                 <li key={h.id}>
                   <Link
                     href={`/posts/${h.slug}`}
-                    className="block rounded-xl border border-zinc-200 p-5 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
+                    className="glass block rounded-xl p-5 transition-colors"
                   >
                     <h2 className="text-lg font-semibold">{highlight(h.title)}</h2>
                     {h.summary && (

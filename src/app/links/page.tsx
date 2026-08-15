@@ -20,7 +20,7 @@ export default async function LinksPage() {
       </p>
 
       {links.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-zinc-300 p-10 text-center text-zinc-500 dark:border-zinc-700">
+        <div className="glass rounded-xl border border-dashed border-zinc-300 p-10 text-center text-zinc-500 dark:border-zinc-700">
           <p className="text-4xl">🕸️</p>
           <p className="mt-3">还没有友链。站长去串门了,晚点把链接挂上来。</p>
         </div>
@@ -32,7 +32,7 @@ export default async function LinksPage() {
               href={l.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group rounded-xl border border-zinc-200 p-4 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:hover:border-zinc-600"
+              className="glass group rounded-xl p-4 transition-colors"
             >
               <p className="font-medium group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
                 {l.name}
