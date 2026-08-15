@@ -58,7 +58,7 @@ html {
   box-shadow:
     0 2px 16px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
-  transition: background-color 0.2s ease, box-shadow 0.25s ease;
+  transition: box-shadow 0.25s ease;
 }
 
 .dark .glass {
@@ -69,23 +69,21 @@ html {
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* 悬停:边缘白色微光高亮 */
+/* 悬停:边缘亮起 + 光晕向外扩散(卡片本身不变亮) */
 .glass:hover {
-  background: rgba(255, 255, 255, 0.6);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.7),
-    0 0 20px rgba(255, 255, 255, 0.32),
-    0 2px 16px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    0 0 0 1px rgba(255, 255, 255, 0.9),
+    0 0 22px rgba(255, 255, 255, 0.35),
+    0 0 52px rgba(255, 255, 255, 0.16),
+    0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .dark .glass:hover {
-  background: rgba(40, 36, 34, 0.55);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.3),
-    0 0 18px rgba(255, 255, 255, 0.14),
-    0 2px 16px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 0 22px rgba(255, 255, 255, 0.22),
+    0 0 52px rgba(255, 255, 255, 0.1),
+    0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* ---------- 正文排版微调(prose) ---------- */
