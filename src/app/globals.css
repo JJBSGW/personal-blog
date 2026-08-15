@@ -28,7 +28,7 @@ body {
   color: var(--foreground);
 }
 
-/* ---------- 丝绸流动背景 ---------- */
+/* ---------- 丝绸织锦背景(真丝质感:光泽波纹 + 金线点缀) ---------- */
 html {
   background: var(--background);
 }
@@ -42,83 +42,119 @@ html {
   background: var(--background);
 }
 
-.silk-blob {
+/* 布料层:丝绸底色 + 湍流位移 → 起伏的织物波纹 */
+.silk-fabric,
+.silk-gold {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: var(--silk-opacity, 0.22);
-  animation: silk-drift 30s ease-in-out infinite alternate;
+  inset: -18%;
 }
 
-.silk-blob:nth-child(1) {
-  background: var(--silk-1);
-  width: 55vw;
-  height: 55vw;
-  top: -18%;
-  left: -12%;
-  animation-duration: 36s;
+.silk-fabric {
+  background: linear-gradient(
+    115deg,
+    var(--silk-c1) 0%,
+    var(--silk-c2) 24%,
+    var(--silk-c3) 48%,
+    var(--silk-c2) 72%,
+    var(--silk-c1) 100%
+  );
+  background-size: 220% 220%;
+  filter: url(#silk-fabric);
+  animation: silk-flow 28s ease-in-out infinite alternate;
 }
 
-.silk-blob:nth-child(2) {
-  background: var(--silk-2);
-  width: 45vw;
-  height: 45vw;
-  top: 20%;
-  right: -15%;
-  animation-duration: 30s;
-  animation-delay: -8s;
+/* 金线层:细密的金色丝线,随布料一起流动 */
+.silk-gold {
+  opacity: var(--silk-gold-opacity, 0.6);
+  background-image:
+    repeating-linear-gradient(
+      100deg,
+      transparent 0 58px,
+      var(--silk-gold-1) 58px 59.5px,
+      transparent 59.5px 118px
+    ),
+    repeating-linear-gradient(
+      78deg,
+      transparent 0 152px,
+      var(--silk-gold-2) 152px 154px,
+      transparent 154px 304px
+    );
+  filter: url(#silk-gold);
+  animation: silk-flow-gold 36s ease-in-out infinite alternate-reverse;
+  mix-blend-mode: var(--silk-gold-blend, multiply);
 }
 
-.silk-blob:nth-child(3) {
-  background: var(--silk-3);
-  width: 40vw;
-  height: 40vw;
-  bottom: -20%;
-  left: 15%;
-  animation-duration: 42s;
-  animation-delay: -16s;
+/* 绸缎光泽:一团缓缓移动的高光 */
+.silk-sheen {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    55% 45% at 30% 22%,
+    var(--silk-sheen-c) 0%,
+    transparent 65%
+  );
+  animation: silk-sheen 18s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
 }
 
-.silk-blob:nth-child(4) {
-  background: var(--silk-4);
-  width: 35vw;
-  height: 35vw;
-  bottom: 5%;
-  right: 5%;
-  animation-duration: 26s;
-  animation-delay: -5s;
-}
-
-@keyframes silk-drift {
+@keyframes silk-flow {
   from {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translate3d(7vw, 5vh, 0) scale(1.18);
+    transform: translate3d(5%, 4%, 0);
+  }
+}
+
+@keyframes silk-flow-gold {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-4%, -3%, 0);
+  }
+}
+
+@keyframes silk-sheen {
+  from {
+    transform: translateX(-14%);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateX(14%);
+    opacity: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .silk-blob {
+  .silk-fabric,
+  .silk-gold,
+  .silk-sheen {
     animation: none;
   }
 }
 
-/* 明暗两套配色 */
+/* 配色:亮色 = 香槟象牙丝绸;暗色 = 深紫锦缎,金线更明显 */
 :root {
-  --silk-1: #6366f1;
-  --silk-2: #8b5cf6;
-  --silk-3: #d946ef;
-  --silk-4: #14b8a6;
-  --silk-opacity: 0.2;
+  --silk-c1: #fbf8f2;
+  --silk-c2: #f0e9f6;
+  --silk-c3: #e6dbf0;
+  --silk-gold-1: rgba(205, 168, 60, 0.2);
+  --silk-gold-2: rgba(240, 220, 120, 0.16);
+  --silk-gold-opacity: 0.6;
+  --silk-gold-blend: multiply;
+  --silk-sheen-c: rgba(255, 255, 255, 0.85);
 }
 
 .dark {
-  --silk-1: #4338ca;
-  --silk-2: #7c3aed;
-  --silk-3: #a21caf;
-  --silk-4: #0f766e;
-  --silk-opacity: 0.26;
+  --silk-c1: #16121f;
+  --silk-c2: #241c38;
+  --silk-c3: #2c2040;
+  --silk-gold-1: rgba(212, 175, 55, 0.22);
+  --silk-gold-2: rgba(246, 226, 122, 0.14);
+  --silk-gold-opacity: 0.75;
+  --silk-gold-blend: screen;
+  --silk-sheen-c: rgba(255, 255, 255, 0.1);
 }
 
 /* ---------- 搜索高亮:发光文字(非底色块) ---------- */
