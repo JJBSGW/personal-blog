@@ -15,11 +15,31 @@ enum PostStatus {
 
 /// 管理员账号(只有你能登录后台)
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
+  id           String    @id @default(cuid())
+  email        String    @unique
   name         String?
   passwordHash String
-  createdAt    DateTime @default(now())
+  sessions     Session[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+/// 登录会话(随机 token + 过期时间)
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+}
+
+/// 站点配置(单行:关于页内容等)
+model SiteConfig {
+  id           Int      @id @default(1)
+  aboutContent String
   updatedAt    DateTime @updatedAt
 }
 

@@ -47,6 +47,16 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model Session
+ * 登录会话(随机 token + 过期时间)
+ */
+export type Session = Prisma.SessionModel
+/**
+ * Model SiteConfig
+ * 站点配置(单行:关于页内容等)
+ */
+export type SiteConfig = Prisma.SiteConfigModel
+/**
  * Model Post
  * 文章
  */
