@@ -1,0 +1,11 @@
+# 构建上下文忽略(保持镜像精简,避免把本机缓存/密钥打进镜像)
+node_modules
+.next
+.cache
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+backups
+*.md

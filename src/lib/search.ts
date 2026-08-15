@@ -4,8 +4,10 @@ import { Meilisearch } from "meilisearch";
 const INDEX_NAME = "posts";
 
 function getClient() {
+  const apiKey = process.env.MEILISEARCH_KEY;
   return new Meilisearch({
     host: process.env.MEILISEARCH_URL ?? "http://127.0.0.1:7700",
+    ...(apiKey ? { apiKey } : {}),
   });
 }
 

@@ -1,0 +1,64 @@
+# 生产部署编排:web + postgres + meilisearch + caddy
+# 用法: cd deploy && cp .env.example .env(填写) && docker compose up -d --build
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-blog}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?请先在 .env 中设置 POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-blog}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-blog} -d ${POSTGRES_DB:-blog}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  search:
+    image: getmeili/meilisearch:v1.53
+    restart: unless-stopped
+    environment:
+      MEILI_MASTER_KEY: ${MEILISEARCH_KEY:?请先在 .env 中设置 MEILISEARCH_KEY}
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - msdata:/meili_data
+
+  web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-blog}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-blog}?sslmode=disable
+      MEILISEARCH_URL: http://search:7700
+      MEILISEARCH_KEY: ${MEILISEARCH_KEY}
+    depends_on:
+      db:
+        condition: service_healthy
+      search:
+        condition: service_started
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      BLOG_DOMAIN: ${BLOG_DOMAIN:?请先在 .env 中设置 BLOG_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  pgdata:
+  msdata:
+  caddy_data:
+  caddy_config:

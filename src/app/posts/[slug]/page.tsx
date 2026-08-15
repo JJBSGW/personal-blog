@@ -9,6 +9,7 @@ import { Markdown } from "@/components/markdown";
 import { Toc } from "@/components/toc";
 import { formatDate, readingMinutes } from "@/components/post-card";
 import { ViewTracker } from "@/components/view-tracker";
+import { siteConfig } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,13 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.summary ?? undefined,
+    openGraph: {
+      title: post.title,
+      description: post.summary ?? undefined,
+      type: "article",
+      publishedTime: post.publishedAt?.toISOString(),
+      url: `${siteConfig.url}/posts/${post.slug}`,
+    },
   };
 }
 

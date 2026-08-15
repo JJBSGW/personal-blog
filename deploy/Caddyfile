@@ -1,0 +1,14 @@
+# Caddy 自动申请并续期 HTTPS 证书(Let's Encrypt)
+{$BLOG_DOMAIN} {
+	encode gzip
+
+	# 转发到 Next.js 应用容器
+	reverse_proxy web:3000
+
+	# 安全响应头
+	header {
+		X-Content-Type-Options nosniff
+		X-Frame-Options SAMEORIGIN
+		Referrer-Policy strict-origin-when-cross-origin
+	}
+}
