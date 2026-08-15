@@ -28,159 +28,9 @@ body {
   color: var(--foreground);
 }
 
-/* ---------- 深红锦缎背景:立体布褶 + 流动缎光 + 极简金线 ---------- */
+/* 页面底色(粒子网络背景画布之下) */
 html {
   background: var(--background);
-}
-
-.silk-bg {
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  overflow: hidden;
-  pointer-events: none;
-  background: var(--silk-base);
-}
-
-/* 折叠层:先用明暗色带做出"隆起/凹陷",再经低频位移成流动的布褶,最后模糊柔化 */
-.silk-fold-a,
-.silk-fold-b {
-  position: absolute;
-  inset: -30%;
-}
-
-.silk-fold-a {
-  background: repeating-linear-gradient(
-    105deg,
-    var(--silk-fold-hi) 0px,
-    var(--silk-fold-mid) 240px,
-    var(--silk-fold-lo) 480px,
-    var(--silk-fold-mid) 720px,
-    var(--silk-fold-hi) 960px
-  );
-  filter: url(#silk-fold) blur(30px);
-  animation: silk-drift-a 34s ease-in-out infinite alternate;
-}
-
-/* 第二层布褶:不同角度与速度 → 视差,营造纵深 */
-.silk-fold-b {
-  background: repeating-linear-gradient(
-    58deg,
-    transparent 0px,
-    var(--silk-fold-2) 300px,
-    transparent 620px
-  );
-  opacity: 0.75;
-  filter: url(#silk-fold) blur(44px);
-  animation: silk-drift-b 46s ease-in-out infinite alternate-reverse;
-}
-
-/* 流动缎光:两道柔和高光带,错开扫过布褶 */
-.silk-sheen {
-  position: absolute;
-  inset: -20%;
-  background:
-    linear-gradient(115deg, transparent 30%, var(--silk-sheen-c) 47%, transparent 62%),
-    linear-gradient(95deg, transparent 62%, var(--silk-sheen-c2) 76%, transparent 88%);
-  background-size: 240% 240%, 240% 240%;
-  filter: blur(34px);
-  mix-blend-mode: screen;
-  animation: silk-sheen 16s ease-in-out infinite alternate;
-}
-
-/* 边缘暗角:营造织物向后收拢的纵深 */
-.silk-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    120% 95% at 50% 45%,
-    transparent 52%,
-    var(--silk-vignette-c) 100%
-  );
-}
-
-/* 极简金线:几缕平滑金色曲线,带落影更有空间感 */
-.silk-gold {
-  position: absolute;
-  inset: 0;
-  animation: silk-drift-b 56s ease-in-out infinite alternate-reverse;
-}
-
-.silk-gold path {
-  fill: none;
-  stroke: var(--silk-gold-line);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  opacity: var(--silk-gold-opacity, 0.55);
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45))
-    drop-shadow(0 0 5px var(--silk-gold-glow));
-}
-
-@keyframes silk-drift-a {
-  from {
-    transform: translate3d(0, 0, 0) scale(1.05);
-  }
-  to {
-    transform: translate3d(4%, 3%, 0) scale(1.12);
-  }
-}
-
-@keyframes silk-drift-b {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-3%, 2%, 0);
-  }
-}
-
-@keyframes silk-sheen {
-  from {
-    transform: translate3d(-9%, 0, 0);
-    opacity: 0.6;
-  }
-  to {
-    transform: translate3d(9%, 0, 0);
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .silk-fold-a,
-  .silk-fold-b,
-  .silk-sheen,
-  .silk-gold {
-    animation: none;
-  }
-}
-
-/* 配色:亮色 = 浅绯红素绸;暗色 = 深红锦缎 + 金 */
-:root {
-  --silk-base: #f9ece9;
-  --silk-fold-hi: #f7c4bb;
-  --silk-fold-mid: #f0b0a6;
-  --silk-fold-lo: #e39a90;
-  --silk-fold-2: rgba(255, 255, 255, 0.5);
-  --silk-sheen-c: rgba(255, 255, 255, 0.9);
-  --silk-sheen-c2: rgba(255, 255, 255, 0.5);
-  --silk-vignette-c: rgba(150, 70, 70, 0.16);
-  --silk-gold-line: #c29a4b;
-  --silk-gold-glow: rgba(194, 154, 75, 0.5);
-  --silk-gold-opacity: 0.5;
-}
-
-.dark {
-  --silk-base: #2b070c;
-  --silk-fold-hi: #9c1a2e;
-  --silk-fold-mid: #6a0e1c;
-  --silk-fold-lo: #34050a;
-  --silk-fold-2: rgba(255, 160, 130, 0.14);
-  --silk-sheen-c: rgba(255, 214, 150, 0.5);
-  --silk-sheen-c2: rgba(255, 190, 130, 0.22);
-  --silk-vignette-c: rgba(0, 0, 0, 0.55);
-  --silk-gold-line: #e8c069;
-  --silk-gold-glow: rgba(232, 192, 105, 0.6);
-  --silk-gold-opacity: 0.7;
 }
 
 /* ---------- 搜索高亮:发光文字(非底色块) ---------- */
@@ -361,8 +211,7 @@ html {
 @media print {
   header,
   footer,
-  .no-print,
-  .silk-bg {
+  .no-print {
     display: none !important;
   }
   body {
