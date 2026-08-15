@@ -71,7 +71,7 @@ html {
 
 /* 悬停:边框变白亮起 + 光晕向外缓慢扩散(卡片本身不变亮) */
 .glass:hover {
-  border-color: rgba(255, 255, 255, 0.95);
+  border-color: #ffffff;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.5),
     0 0 24px rgba(255, 255, 255, 0.28),
@@ -80,7 +80,7 @@ html {
 }
 
 .dark .glass:hover {
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.6);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.28),
     0 0 24px rgba(255, 255, 255, 0.18),
