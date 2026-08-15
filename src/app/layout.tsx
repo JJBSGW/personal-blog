@@ -5,7 +5,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ParticleField } from "@/components/particle-field";
-import { siteConfig } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,14 +17,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s · ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  metadataBase: new URL(siteConfig.url),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSiteConfig();
+  return {
+    title: {
+      default: site.name,
+      template: `%s · ${site.name}`,
+    },
+    description: site.description,
+    metadataBase: new URL(site.url),
+  };
+}
 
 export default function RootLayout({
   children,

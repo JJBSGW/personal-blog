@@ -104,6 +104,12 @@ export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeo
 
 export const SiteConfigScalarFieldEnum = {
   id: 'id',
+  siteName: 'siteName',
+  description: 'description',
+  author: 'author',
+  github: 'github',
+  email: 'email',
+  footerText: 'footerText',
   aboutContent: 'aboutContent',
   updatedAt: 'updatedAt'
 } as const

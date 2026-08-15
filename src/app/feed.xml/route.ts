@@ -1,5 +1,5 @@
 import { listPublishedPosts } from "@/lib/posts";
-import { siteConfig } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
@@ -13,10 +13,13 @@ function escapeXml(s: string): string {
 }
 
 export async function GET() {
-  const { posts } = await listPublishedPosts({ page: 1, pageSize: 20 });
+  const [site, { posts }] = await Promise.all([
+    getSiteConfig(),
+    listPublishedPosts({ page: 1, pageSize: 20 }),
+  ]);
   const items = posts
     .map((p) => {
-      const link = `${siteConfig.url}/posts/${p.slug}`;
+      const link = `${site.url}/posts/${p.slug}`;
       return [
         "<item>",
         `  <title>${escapeXml(p.title)}</title>`,
@@ -33,9 +36,9 @@ export async function GET() {
     `<?xml version="1.0" encoding="UTF-8"?>`,
     `<rss version="2.0">`,
     `  <channel>`,
-    `    <title>${escapeXml(siteConfig.name)}</title>`,
-    `    <link>${escapeXml(siteConfig.url)}</link>`,
-    `    <description>${escapeXml(siteConfig.description)}</description>`,
+    `    <title>${escapeXml(site.name)}</title>`,
+    `    <link>${escapeXml(site.url)}</link>`,
+    `    <description>${escapeXml(site.description)}</description>`,
     items,
     `  </channel>`,
     `</rss>`,

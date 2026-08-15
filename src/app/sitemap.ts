@@ -1,28 +1,31 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db";
-import { siteConfig } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 
 // sitemap:静态页 + 全部已发布文章
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await prisma.post.findMany({
-    where: { status: "PUBLISHED" },
-    select: { slug: true, updatedAt: true },
-    orderBy: { updatedAt: "desc" },
-  });
+  const [site, posts] = await Promise.all([
+    getSiteConfig(),
+    prisma.post.findMany({
+      where: { status: "PUBLISHED" },
+      select: { slug: true, updatedAt: true },
+      orderBy: { updatedAt: "desc" },
+    }),
+  ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: siteConfig.url, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
-    { url: `${siteConfig.url}/tags`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.6 },
-    { url: `${siteConfig.url}/archive`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.5 },
-    { url: `${siteConfig.url}/links`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.4 },
-    { url: `${siteConfig.url}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
-    { url: `${siteConfig.url}/resume`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
+    { url: site.url, lastModified: new Date(), changeFrequency: "daily", priority: 1 },
+    { url: `${site.url}/tags`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.6 },
+    { url: `${site.url}/archive`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.5 },
+    { url: `${site.url}/links`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.4 },
+    { url: `${site.url}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
+    { url: `${site.url}/resume`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const postRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
-    url: `${siteConfig.url}/posts/${p.slug}`,
+    url: `${site.url}/posts/${p.slug}`,
     lastModified: p.updatedAt,
     changeFrequency: "monthly",
     priority: 0.8,

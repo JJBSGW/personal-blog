@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { siteConfig } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const nav = [
@@ -11,16 +11,17 @@ const nav = [
   { href: "/resume", label: "简历" },
 ];
 
-export function Header() {
+export async function Header() {
+  const site = await getSiteConfig();
   return (
     <header className="no-print sticky top-0 z-10 border-b border-zinc-200 bg-background/80 backdrop-blur dark:border-zinc-800">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-5 px-4">
         <Link
           href="/"
           className="shrink-0 text-lg font-bold tracking-tight"
-          title={siteConfig.description}
+          title={site.description}
         >
-          {siteConfig.name}
+          {site.name}
         </Link>
         <nav className="flex items-center gap-4 text-sm text-zinc-600 dark:text-zinc-400">
           {nav.map((n) => (

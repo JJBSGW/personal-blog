@@ -29,7 +29,7 @@ export type User = Prisma.UserModel
 export type Session = Prisma.SessionModel
 /**
  * Model SiteConfig
- * 站点配置(单行:关于页内容等)
+ * 站点配置(单行:站点信息 + 关于页内容)
  */
 export type SiteConfig = Prisma.SiteConfigModel
 /**

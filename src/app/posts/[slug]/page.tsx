@@ -11,7 +11,7 @@ import { formatDate, readingMinutes } from "@/components/post-card";
 import { ViewTracker } from "@/components/view-tracker";
 import { CommentForm } from "@/components/comment-form";
 import { ReadingWidget } from "@/components/reading-widget";
-import { siteConfig } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,10 @@ export async function generateMetadata({
   params,
 }: PageProps<"/posts/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPublishedPostBySlug(slug);
+  const [site, post] = await Promise.all([
+    getSiteConfig(),
+    getPublishedPostBySlug(slug),
+  ]);
   if (!post) return { title: "文章不存在" };
   return {
     title: post.title,
@@ -30,7 +33,7 @@ export async function generateMetadata({
       description: post.summary ?? undefined,
       type: "article",
       publishedTime: post.publishedAt?.toISOString(),
-      url: `${siteConfig.url}/posts/${post.slug}`,
+      url: `${site.url}/posts/${post.slug}`,
     },
   };
 }

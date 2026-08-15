@@ -12,6 +12,7 @@ const links = [
   { href: "/admin/media", label: "🖼️ 媒体库" },
   { href: "/admin/resume", label: "👤 个人简历" },
   { href: "/admin/about", label: "ℹ️ 关于页" },
+  { href: "/admin/settings", label: "⚙️ 站点设置" },
 ];
 
 export default async function AdminLayout({

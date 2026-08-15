@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { siteConfig } from "@/lib/site";
 
-export function AdminLoginForm() {
+export function AdminLoginForm({ siteName }: { siteName: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/admin";
@@ -42,7 +41,7 @@ export function AdminLoginForm() {
       <div className="w-full max-w-sm rounded-xl border border-zinc-200 p-8 dark:border-zinc-800">
         <h1 className="text-xl font-bold">后台登录</h1>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-          {siteConfig.name} 管理后台
+          {siteName} 管理后台
         </p>
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div>

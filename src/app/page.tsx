@@ -1,23 +1,26 @@
 import { listPublishedPosts } from "@/lib/posts";
 import { PostCard } from "@/components/post-card";
 import { Pagination } from "@/components/pagination";
-import { siteConfig } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const { page: rawPage } = await searchParams;
   const page = Math.max(1, Number(rawPage) || 1);
-  const { posts, totalPages, page: current } = await listPublishedPosts({ page });
+  const [site, { posts, totalPages, page: current }] = await Promise.all([
+    getSiteConfig(),
+    listPublishedPosts({ page }),
+  ]);
 
   return (
     <div className="space-y-8">
       <section className="animate-fade-up border-b border-zinc-200 pb-6 dark:border-zinc-800">
         <h1 className="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 bg-clip-text text-4xl font-bold tracking-tight text-transparent dark:from-indigo-400 dark:via-violet-400 dark:to-fuchsia-400">
-          {siteConfig.name}
+          {site.name}
         </h1>
         <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-          {siteConfig.description}
+          {site.description}
         </p>
         <div className="mt-4 flex flex-wrap gap-2 text-xs">
           {["💻 技术笔记", "🔧 折腾记录", "📚 读书随笔"].map((chip) => (

@@ -303,3 +303,32 @@ export async function saveAbout(
   revalidatePath("/about");
   return { ok: true };
 }
+
+// ---------- 站点设置 ----------
+
+export async function saveSettings(
+  _prev: FormState,
+  formData: FormData
+): Promise<FormState> {
+  await requireAdmin();
+  const pick = (k: string) => {
+    const v = String(formData.get(k) ?? "").trim();
+    return v || null;
+  };
+  const data = {
+    siteName: pick("siteName"),
+    description: pick("description"),
+    author: pick("author"),
+    github: pick("github"),
+    email: pick("email"),
+    footerText: pick("footerText"),
+  };
+  await prisma.siteConfig.upsert({
+    where: { id: 1 },
+    update: data,
+    create: { id: 1, aboutContent: "", ...data },
+  });
+  revalidatePath("/");
+  revalidatePath("/admin");
+  return { ok: true };
+}

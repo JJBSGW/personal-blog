@@ -1,22 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prisma } from "@/lib/db";
-import { siteConfig } from "@/lib/site";
+import { getSiteConfig } from "@/lib/site-config";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = { title: "友链" };
 
 export default async function LinksPage() {
-  const links = await prisma.friendLink.findMany({
-    orderBy: [{ sort: "asc" }, { createdAt: "asc" }],
-  });
+  const [links, site] = await Promise.all([
+    prisma.friendLink.findMany({
+      orderBy: [{ sort: "asc" }, { createdAt: "asc" }],
+    }),
+    getSiteConfig(),
+  ]);
 
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold tracking-tight">友链</h1>
       <p className="text-zinc-600 dark:text-zinc-400">
-        一些值得逛的站点。想交换友链?发邮件到 {siteConfig.email}(占位)。
+        一些值得逛的站点。想交换友链?发邮件到 {site.email}。
       </p>
 
       {links.length === 0 ? (

@@ -1,12 +1,14 @@
 import { Suspense } from "react";
+import { getSiteConfig } from "@/lib/site-config";
 import { AdminLoginForm } from "./login-form";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminLoginPage() {
+export default async function AdminLoginPage() {
+  const site = await getSiteConfig();
   return (
     <Suspense fallback={null}>
-      <AdminLoginForm />
+      <AdminLoginForm siteName={site.name} />
     </Suspense>
   );
 }

@@ -36,9 +36,15 @@ model Session {
   @@index([token])
 }
 
-/// 站点配置(单行:关于页内容等)
+/// 站点配置(单行:站点信息 + 关于页内容)
 model SiteConfig {
   id           Int      @id @default(1)
+  siteName     String?
+  description  String?
+  author       String?
+  github       String?
+  email        String?
+  footerText   String?
   aboutContent String
   updatedAt    DateTime @updatedAt
 }

@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model SiteConfig
- * 站点配置(单行:关于页内容等)
+ * 站点配置(单行:站点信息 + 关于页内容)
  */
 export type SiteConfigModel = runtime.Types.Result.DefaultSelection<Prisma.$SiteConfigPayload>
 
@@ -36,18 +36,36 @@ export type SiteConfigSumAggregateOutputType = {
 
 export type SiteConfigMinAggregateOutputType = {
   id: number | null
+  siteName: string | null
+  description: string | null
+  author: string | null
+  github: string | null
+  email: string | null
+  footerText: string | null
   aboutContent: string | null
   updatedAt: Date | null
 }
 
 export type SiteConfigMaxAggregateOutputType = {
   id: number | null
+  siteName: string | null
+  description: string | null
+  author: string | null
+  github: string | null
+  email: string | null
+  footerText: string | null
   aboutContent: string | null
   updatedAt: Date | null
 }
 
 export type SiteConfigCountAggregateOutputType = {
   id: number
+  siteName: number
+  description: number
+  author: number
+  github: number
+  email: number
+  footerText: number
   aboutContent: number
   updatedAt: number
   _all: number
@@ -64,18 +82,36 @@ export type SiteConfigSumAggregateInputType = {
 
 export type SiteConfigMinAggregateInputType = {
   id?: true
+  siteName?: true
+  description?: true
+  author?: true
+  github?: true
+  email?: true
+  footerText?: true
   aboutContent?: true
   updatedAt?: true
 }
 
 export type SiteConfigMaxAggregateInputType = {
   id?: true
+  siteName?: true
+  description?: true
+  author?: true
+  github?: true
+  email?: true
+  footerText?: true
   aboutContent?: true
   updatedAt?: true
 }
 
 export type SiteConfigCountAggregateInputType = {
   id?: true
+  siteName?: true
+  description?: true
+  author?: true
+  github?: true
+  email?: true
+  footerText?: true
   aboutContent?: true
   updatedAt?: true
   _all?: true
@@ -169,6 +205,12 @@ export type SiteConfigGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 
 export type SiteConfigGroupByOutputType = {
   id: number
+  siteName: string | null
+  description: string | null
+  author: string | null
+  github: string | null
+  email: string | null
+  footerText: string | null
   aboutContent: string
   updatedAt: Date
   _count: SiteConfigCountAggregateOutputType | null
@@ -198,12 +240,24 @@ export type SiteConfigWhereInput = {
   OR?: Prisma.SiteConfigWhereInput[]
   NOT?: Prisma.SiteConfigWhereInput | Prisma.SiteConfigWhereInput[]
   id?: Prisma.IntFilter<"SiteConfig"> | number
+  siteName?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  description?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  author?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  github?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  email?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  footerText?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
   aboutContent?: Prisma.StringFilter<"SiteConfig"> | string
   updatedAt?: Prisma.DateTimeFilter<"SiteConfig"> | Date | string
 }
 
 export type SiteConfigOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  siteName?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  author?: Prisma.SortOrderInput | Prisma.SortOrder
+  github?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  footerText?: Prisma.SortOrderInput | Prisma.SortOrder
   aboutContent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -213,12 +267,24 @@ export type SiteConfigWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.SiteConfigWhereInput | Prisma.SiteConfigWhereInput[]
   OR?: Prisma.SiteConfigWhereInput[]
   NOT?: Prisma.SiteConfigWhereInput | Prisma.SiteConfigWhereInput[]
+  siteName?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  description?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  author?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  github?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  email?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
+  footerText?: Prisma.StringNullableFilter<"SiteConfig"> | string | null
   aboutContent?: Prisma.StringFilter<"SiteConfig"> | string
   updatedAt?: Prisma.DateTimeFilter<"SiteConfig"> | Date | string
 }, "id">
 
 export type SiteConfigOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  siteName?: Prisma.SortOrderInput | Prisma.SortOrder
+  description?: Prisma.SortOrderInput | Prisma.SortOrder
+  author?: Prisma.SortOrderInput | Prisma.SortOrder
+  github?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  footerText?: Prisma.SortOrderInput | Prisma.SortOrder
   aboutContent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SiteConfigCountOrderByAggregateInput
@@ -233,54 +299,108 @@ export type SiteConfigScalarWhereWithAggregatesInput = {
   OR?: Prisma.SiteConfigScalarWhereWithAggregatesInput[]
   NOT?: Prisma.SiteConfigScalarWhereWithAggregatesInput | Prisma.SiteConfigScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"SiteConfig"> | number
+  siteName?: Prisma.StringNullableWithAggregatesFilter<"SiteConfig"> | string | null
+  description?: Prisma.StringNullableWithAggregatesFilter<"SiteConfig"> | string | null
+  author?: Prisma.StringNullableWithAggregatesFilter<"SiteConfig"> | string | null
+  github?: Prisma.StringNullableWithAggregatesFilter<"SiteConfig"> | string | null
+  email?: Prisma.StringNullableWithAggregatesFilter<"SiteConfig"> | string | null
+  footerText?: Prisma.StringNullableWithAggregatesFilter<"SiteConfig"> | string | null
   aboutContent?: Prisma.StringWithAggregatesFilter<"SiteConfig"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SiteConfig"> | Date | string
 }
 
 export type SiteConfigCreateInput = {
   id?: number
+  siteName?: string | null
+  description?: string | null
+  author?: string | null
+  github?: string | null
+  email?: string | null
+  footerText?: string | null
   aboutContent: string
   updatedAt?: Date | string
 }
 
 export type SiteConfigUncheckedCreateInput = {
   id?: number
+  siteName?: string | null
+  description?: string | null
+  author?: string | null
+  github?: string | null
+  email?: string | null
+  footerText?: string | null
   aboutContent: string
   updatedAt?: Date | string
 }
 
 export type SiteConfigUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  footerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aboutContent?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SiteConfigUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  footerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aboutContent?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SiteConfigCreateManyInput = {
   id?: number
+  siteName?: string | null
+  description?: string | null
+  author?: string | null
+  github?: string | null
+  email?: string | null
+  footerText?: string | null
   aboutContent: string
   updatedAt?: Date | string
 }
 
 export type SiteConfigUpdateManyMutationInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  footerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aboutContent?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SiteConfigUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  siteName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  author?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  github?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  footerText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   aboutContent?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SiteConfigCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  siteName?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  github?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  footerText?: Prisma.SortOrder
   aboutContent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -291,12 +411,24 @@ export type SiteConfigAvgOrderByAggregateInput = {
 
 export type SiteConfigMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  siteName?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  github?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  footerText?: Prisma.SortOrder
   aboutContent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type SiteConfigMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  siteName?: Prisma.SortOrder
+  description?: Prisma.SortOrder
+  author?: Prisma.SortOrder
+  github?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  footerText?: Prisma.SortOrder
   aboutContent?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -317,35 +449,65 @@ export type IntFieldUpdateOperationsInput = {
 
 export type SiteConfigSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  siteName?: boolean
+  description?: boolean
+  author?: boolean
+  github?: boolean
+  email?: boolean
+  footerText?: boolean
   aboutContent?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteConfig"]>
 
 export type SiteConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  siteName?: boolean
+  description?: boolean
+  author?: boolean
+  github?: boolean
+  email?: boolean
+  footerText?: boolean
   aboutContent?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteConfig"]>
 
 export type SiteConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  siteName?: boolean
+  description?: boolean
+  author?: boolean
+  github?: boolean
+  email?: boolean
+  footerText?: boolean
   aboutContent?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteConfig"]>
 
 export type SiteConfigSelectScalar = {
   id?: boolean
+  siteName?: boolean
+  description?: boolean
+  author?: boolean
+  github?: boolean
+  email?: boolean
+  footerText?: boolean
   aboutContent?: boolean
   updatedAt?: boolean
 }
 
-export type SiteConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "aboutContent" | "updatedAt", ExtArgs["result"]["siteConfig"]>
+export type SiteConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "siteName" | "description" | "author" | "github" | "email" | "footerText" | "aboutContent" | "updatedAt", ExtArgs["result"]["siteConfig"]>
 
 export type $SiteConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteConfig"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
+    siteName: string | null
+    description: string | null
+    author: string | null
+    github: string | null
+    email: string | null
+    footerText: string | null
     aboutContent: string
     updatedAt: Date
   }, ExtArgs["result"]["siteConfig"]>
@@ -772,6 +934,12 @@ export interface Prisma__SiteConfigClient<T, Null = never, ExtArgs extends runti
  */
 export interface SiteConfigFieldRefs {
   readonly id: Prisma.FieldRef<"SiteConfig", 'Int'>
+  readonly siteName: Prisma.FieldRef<"SiteConfig", 'String'>
+  readonly description: Prisma.FieldRef<"SiteConfig", 'String'>
+  readonly author: Prisma.FieldRef<"SiteConfig", 'String'>
+  readonly github: Prisma.FieldRef<"SiteConfig", 'String'>
+  readonly email: Prisma.FieldRef<"SiteConfig", 'String'>
+  readonly footerText: Prisma.FieldRef<"SiteConfig", 'String'>
   readonly aboutContent: Prisma.FieldRef<"SiteConfig", 'String'>
   readonly updatedAt: Prisma.FieldRef<"SiteConfig", 'DateTime'>
 }
