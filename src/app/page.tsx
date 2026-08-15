@@ -1,16 +1,18 @@
-import { listPublishedPosts } from "@/lib/posts";
+import { listPublishedPosts, getHotPosts } from "@/lib/posts";
 import { PostCard } from "@/components/post-card";
 import { Pagination } from "@/components/pagination";
 import { getSiteConfig } from "@/lib/site-config";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const { page: rawPage } = await searchParams;
   const page = Math.max(1, Number(rawPage) || 1);
-  const [site, { posts, totalPages, page: current }] = await Promise.all([
+  const [site, { posts, totalPages, page: current }, hot] = await Promise.all([
     getSiteConfig(),
     listPublishedPosts({ page }),
+    getHotPosts(5),
   ]);
 
   return (
@@ -54,6 +56,33 @@ export default async function Home({ searchParams }: PageProps<"/">) {
       </section>
 
       <Pagination page={current} totalPages={totalPages} basePath="/" />
+
+      {/* 热门文章 */}
+      {hot.length > 0 && (
+        <section>
+          <h2 className="mb-3 text-xl font-bold">🔥 热门文章</h2>
+          <ol className="glass divide-y divide-zinc-200/70 rounded-xl dark:divide-zinc-800/70">
+            {hot.map((h, i) => (
+              <li key={h.slug}>
+                <Link
+                  href={`/posts/${h.slug}`}
+                  className="flex items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-zinc-50/60 dark:hover:bg-zinc-800/40"
+                >
+                  <span className="flex min-w-0 items-center gap-3">
+                    <span className="w-5 shrink-0 text-center text-sm font-semibold text-zinc-400">
+                      {i + 1}
+                    </span>
+                    <span className="truncate font-medium">{h.title}</span>
+                  </span>
+                  <span className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">
+                    {h.viewCount} 阅
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
     </div>
   );
 }

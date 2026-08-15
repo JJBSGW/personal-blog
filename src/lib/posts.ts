@@ -76,6 +76,40 @@ export async function listPostsForArchive(): Promise<ArchiveItem[]> {
   });
 }
 
+/** 相关文章:与当前文章共享标签的其它可见文章(无标签则取最新) */
+export async function getRelatedPosts(
+  post: { id: string; tagIds: string[] },
+  limit = 4
+) {
+  if (post.tagIds.length === 0) {
+    return prisma.post.findMany({
+      where: visibleWhere({ id: { not: post.id } }),
+      orderBy: { publishedAt: "desc" },
+      take: limit,
+      select: { slug: true, title: true },
+    });
+  }
+  return prisma.post.findMany({
+    where: visibleWhere({
+      id: { not: post.id },
+      tags: { some: { id: { in: post.tagIds } } },
+    }),
+    orderBy: { publishedAt: "desc" },
+    take: limit,
+    select: { slug: true, title: true },
+  });
+}
+
+/** 热门文章:按浏览量倒序 */
+export async function getHotPosts(limit = 5) {
+  return prisma.post.findMany({
+    where: visibleWhere(),
+    orderBy: { viewCount: "desc" },
+    take: limit,
+    select: { slug: true, title: true, viewCount: true },
+  });
+}
+
 /** 上一篇 / 下一篇(按发布时间相邻,仅考虑可见文章) */
 export async function getPostNeighbors(post: {
   slug: string;

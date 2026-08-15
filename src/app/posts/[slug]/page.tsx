@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import {
   getPublishedPostBySlug,
   getPostNeighbors,
+  getRelatedPosts,
 } from "@/lib/posts";
 import { Markdown } from "@/components/markdown";
 import { Toc } from "@/components/toc";
@@ -44,10 +45,13 @@ export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
   if (!post) notFound();
 
   const { prev, next } = await getPostNeighbors(post);
-  const comments = await prisma.comment.findMany({
-    where: { postId: post.id },
-    orderBy: { createdAt: "asc" },
-  });
+  const [comments, related] = await Promise.all([
+    prisma.comment.findMany({
+      where: { postId: post.id },
+      orderBy: { createdAt: "asc" },
+    }),
+    getRelatedPosts({ id: post.id, tagIds: post.tags.map((t) => t.id) }, 4),
+  ]);
 
   return (
     <article className="space-y-6">
@@ -89,6 +93,25 @@ export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
       <Toc content={post.content} />
 
       <Markdown content={post.content} />
+
+      {/* 相关文章 */}
+      {related.length > 0 && (
+        <section className="border-t border-zinc-200 pt-6 dark:border-zinc-800">
+          <h2 className="text-xl font-bold">相关文章</h2>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+            {related.map((r) => (
+              <li key={r.slug}>
+                <Link
+                  href={`/posts/${r.slug}`}
+                  className="glass block rounded-lg p-4 transition-colors hover:bg-zinc-50/60 dark:hover:bg-zinc-800/40"
+                >
+                  <span className="line-clamp-2 font-medium">{r.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* 评论区 */}
       <section className="border-t border-zinc-200 pt-6 dark:border-zinc-800">
