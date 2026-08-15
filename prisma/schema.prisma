@@ -1,0 +1,91 @@
+// 博客数据模型 —— 对应 PLAN.md 第五节
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+
+/// 管理员账号(只有你能登录后台)
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/// 文章
+model Post {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  summary     String?
+  content     String // Markdown 正文
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+  viewCount   Int        @default(0) // 冗余计数,列表页直接展示
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId  String?
+  tags        Tag[]
+  viewLogs    ViewLog[]
+  comments    Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, publishedAt])
+}
+
+/// 分类(一篇文章一个分类)
+model Category {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts Post[]
+}
+
+/// 标签(多对多)
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  posts Post[]
+}
+
+/// 阅读记录(按 IP + 时间窗口去重,供统计)
+model ViewLog {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  date      DateTime @default(now())
+  ip        String?
+  userAgent String?
+
+  @@index([postId, date])
+}
+
+/// 评论(预留)
+model Comment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    String
+  content   String
+  createdAt DateTime @default(now())
+}
+
+/// 个人简历(结构化数据,单行,后台可编辑)
+model Resume {
+  id        Int      @id @default(1)
+  data      Json
+  updatedAt DateTime @updatedAt
+}

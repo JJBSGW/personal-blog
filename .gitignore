@@ -33,6 +33,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local tool caches (machine-specific, keep out of git)
+/.cache
+/.npmrc
+
 # vercel
 .vercel
 
