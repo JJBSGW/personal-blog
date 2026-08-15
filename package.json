@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "db:dev": "node scripts/dev-db.mjs",
+    "search:dev": "node scripts/dev-search.mjs",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio"

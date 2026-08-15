@@ -14,6 +14,7 @@ conda activate blog        # 激活环境
 cd F:\MasterWork\PersonalBlog
 
 npm run db:dev             # 启动本地数据库(嵌入式 PostgreSQL,数据在 .cache/pgdata)
+npm run search:dev         # 启动本地搜索服务(首次自动下载 Meilisearch,约128MB)
 npm run dev                # 启动博客开发服务器 → http://localhost:3000
 ```
 
@@ -32,11 +33,14 @@ npm run dev                # 启动博客开发服务器 → http://localhost:30
 |---|---|
 | `npm run dev` | 开发服务器(localhost:3000) |
 | `npm run db:dev` | 启动/复用本地数据库(5432) |
+| `npm run search:dev` | 启动/复用本地搜索服务(7700,首次自动下载) |
 | `npm run prisma:migrate` | 生成并应用数据库迁移 |
 | `npm run prisma:generate` | 重新生成 Prisma Client |
 | `npm run prisma:studio` | 数据库可视化界面 |
 | `npm run build` / `npm start` | 生产构建与启动 |
-| `node scripts/test-prisma.mjs`(经 tsx) | 数据库端到端自检 |
+| `node scripts/create-admin.mjs <邮箱> <密码>` | 创建/重置管理员账号 |
+| `npx tsx scripts/seed.mjs` | 灌入占位文章/标签/简历数据 |
+| `npx tsx scripts/sync-search.mts` | 全量重建搜索索引 |
 
 ## 📁 项目结构
 
