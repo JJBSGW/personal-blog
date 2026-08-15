@@ -1,0 +1,20 @@
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import { rehypeHeadingIds } from "@/lib/markdown";
+
+export function Markdown({ content }: { content: string }) {
+  return (
+    <div className="prose prose-zinc max-w-none dark:prose-invert">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[
+          [rehypeHeadingIds, {}],
+          [rehypeHighlight, {}],
+        ]}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
+  );
+}

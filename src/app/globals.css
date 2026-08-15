@@ -1,26 +1,137 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafaf9;
+  --foreground: #1c1917;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c0a09;
+    --foreground: #e7e5e4;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Code",
+    "Source Code Pro", Consolas, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ---------- 正文排版微调(prose) ---------- */
+.prose h2,
+.prose h3,
+.prose h4 {
+  scroll-margin-top: 5rem; /* 锚点跳转避开吸顶导航 */
+}
+
+.prose pre {
+  background: #f4f4f5;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose pre {
+    background: #1c1917;
+    border-color: #292524;
+  }
+}
+
+/* ---------- 代码高亮(精简主题,随明暗切换) ---------- */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag {
+  color: #7c3aed;
+}
+.hljs-string,
+.hljs-attr-value,
+.hljs-regexp {
+  color: #059669;
+}
+.hljs-number,
+.hljs-built_in {
+  color: #d97706;
+}
+.hljs-title,
+.hljs-title.function_,
+.hljs-attr,
+.hljs-attribute {
+  color: #2563eb;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #94a3b8;
+  font-style: italic;
+}
+.hljs-variable,
+.hljs-template-variable,
+.hljs-name {
+  color: #dc2626;
+}
+.hljs-symbol,
+.hljs-bullet {
+  color: #0891b2;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-literal,
+  .hljs-doctag {
+    color: #c4b5fd;
+  }
+  .hljs-string,
+  .hljs-attr-value,
+  .hljs-regexp {
+    color: #6ee7b7;
+  }
+  .hljs-number,
+  .hljs-built_in {
+    color: #fcd34d;
+  }
+  .hljs-title,
+  .hljs-title.function_,
+  .hljs-attr,
+  .hljs-attribute {
+    color: #93c5fd;
+  }
+  .hljs-comment,
+  .hljs-quote {
+    color: #78716c;
+  }
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-name {
+    color: #fca5a5;
+  }
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #67e8f9;
+  }
+}
+
+/* ---------- 打印:隐藏导航与页脚(简历页导出 PDF 用) ---------- */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
 }
