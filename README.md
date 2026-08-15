@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎓 个人博客 personal-blog
 
-## Getting Started
+全栈动态个人博客:文章管理后台 + 中文全文搜索 + 暗色模式 + 阅读统计 + 个人简历页。
 
-First, run the development server:
+- **GitHub**: https://github.com/JJBSGW/personal-blog
+- **技术栈**: Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · PostgreSQL · Prisma 7 · Meilisearch(规划中)· Docker Compose + Caddy(部署)
+
+## 🚀 快速开始(conda 环境)
+
+项目已在 conda 环境 `blog` 中配置好(nodejs 22 + python 3.12):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+conda activate blog        # 激活环境
+cd F:\MasterWork\PersonalBlog
+
+npm run db:dev             # 启动本地数据库(嵌入式 PostgreSQL,数据在 .cache/pgdata)
+npm run dev                # 启动博客开发服务器 → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> 没有 conda 也可以用任意 Node.js ≥ 20.9 直接跑,项目不依赖 Python/conda,依赖全部在项目内 `node_modules`。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🗄️ 数据库
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **本地开发**:嵌入式 PostgreSQL 18(真实 Postgres 二进制,随项目走,不装系统服务)
+  - 数据目录:`.cache/pgdata`(已 gitignore);想重置数据库,删除该目录后重新 `npm run db:dev`
+  - 脚本幂等:数据已初始化会自动跳过 initdb;端口已被占用会提示"已在运行"
+- **生产部署**:Docker Compose 中的 PostgreSQL(见 `deploy/`,阶段 6 完善)
 
-## Learn More
+## 🧪 常用命令
 
-To learn more about Next.js, take a look at the following resources:
+| 命令 | 说明 |
+|---|---|
+| `npm run dev` | 开发服务器(localhost:3000) |
+| `npm run db:dev` | 启动/复用本地数据库(5432) |
+| `npm run prisma:migrate` | 生成并应用数据库迁移 |
+| `npm run prisma:generate` | 重新生成 Prisma Client |
+| `npm run prisma:studio` | 数据库可视化界面 |
+| `npm run build` / `npm start` | 生产构建与启动 |
+| `node scripts/test-prisma.mjs`(经 tsx) | 数据库端到端自检 |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 项目结构
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+prisma/              数据模型(schema.prisma)与迁移(migrations/)
+src/
+  app/               页面(App Router)
+  lib/db.ts          Prisma Client 全局单例
+  generated/prisma/  生成的类型安全客户端(勿手改)
+scripts/
+  dev-db.mjs         本地数据库启动脚本(幂等)
+  test-prisma.mjs    端到端自检
+deploy/              部署编排(阶段 6)
+PLAN.md              项目计划文档
+```
 
-## Deploy on Vercel
+## 📌 当前进度
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [x] 阶段 1:项目初始化 + 数据库 + 数据模型
+- [ ] 阶段 2:前台页面(列表/详情/标签/关于/简历/RSS)
+- [ ] 阶段 3:后台管理(登录/Markdown 编辑器)
+- [ ] 阶段 4:全文搜索(Meilisearch)
+- [ ] 阶段 5:暗色模式 + 阅读统计
+- [ ] 阶段 6:部署上线(Docker Compose + Caddy + 域名)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+详见 `PLAN.md`。
