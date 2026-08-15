@@ -36,10 +36,17 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="min-h-full flex flex-col text-foreground">
+        {/* 丝绸流动背景(装饰层,不参与交互) */}
+        <div className="silk-bg" aria-hidden="true">
+          <span className="silk-blob" />
+          <span className="silk-blob" />
+          <span className="silk-blob" />
+          <span className="silk-blob" />
+        </div>
         <ThemeProvider>
           <Header />
-          <main className="flex-1 w-full max-w-3xl mx-auto px-4 py-8">
+          <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-8">
             {children}
           </main>
           <Footer />

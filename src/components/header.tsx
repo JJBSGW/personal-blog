@@ -13,7 +13,7 @@ const nav = [
 export function Header() {
   return (
     <header className="no-print sticky top-0 z-10 border-b border-zinc-200 bg-background/80 backdrop-blur dark:border-zinc-800">
-      <div className="mx-auto flex h-14 w-full max-w-3xl items-center gap-5 px-4">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-5 px-4">
         <Link
           href="/"
           className="shrink-0 text-lg font-bold tracking-tight"

@@ -11,7 +11,7 @@ function highlight(text: string): React.ReactNode {
   return (
     <span
       dangerouslySetInnerHTML={{ __html: text }}
-      className="[&_mark]:rounded [&_mark]:bg-amber-200 [&_mark]:px-0.5 dark:[&_mark]:bg-amber-500/40"
+      className="search-hit"
     />
   );
 }
