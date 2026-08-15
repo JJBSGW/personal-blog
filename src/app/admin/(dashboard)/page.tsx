@@ -8,8 +8,15 @@ const dateFmt = new Intl.DateTimeFormat("zh-CN", {
   timeStyle: "short",
 });
 
+function daysAgo(n: number): Date {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - n);
+  return d;
+}
+
 export default async function AdminDashboard() {
-  const [totalPosts, published, drafts, viewAgg, tagCount, categoryCount, recent] =
+  const [totalPosts, published, drafts, viewAgg, tagCount, categoryCount, recent, viewLogs] =
     await Promise.all([
       prisma.post.count(),
       prisma.post.count({ where: { status: "PUBLISHED" } }),
@@ -28,7 +35,31 @@ export default async function AdminDashboard() {
           viewCount: true,
         },
       }),
+      // 近 30 天阅读记录(用于趋势图)
+      prisma.viewLog.findMany({
+        where: { date: { gte: daysAgo(29) } },
+        select: { date: true },
+      }),
     ]);
+
+  // 按本地日期聚合
+  const buckets = new Map<string, number>();
+  for (const l of viewLogs) {
+    const d = l.date;
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    buckets.set(key, (buckets.get(key) ?? 0) + 1);
+  }
+  const today = new Date();
+  const series = Array.from({ length: 30 }, (_, i) => {
+    const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 29 + i);
+    const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    return {
+      label: `${d.getMonth() + 1}/${d.getDate()}`,
+      count: buckets.get(key) ?? 0,
+      isToday: i === 29,
+    };
+  });
+  const maxCount = Math.max(1, ...series.map((s) => s.count));
 
   const stats = [
     { label: "全部文章", value: totalPosts },
@@ -64,6 +95,35 @@ export default async function AdminDashboard() {
           </div>
         ))}
       </div>
+
+      <section>
+        <div className="mb-3 flex items-baseline justify-between">
+          <h2 className="text-lg font-semibold">近 30 天阅读趋势</h2>
+          <p className="text-xs text-zinc-500">
+            按独立阅读事件计(同 IP 10 分钟内去重)
+          </p>
+        </div>
+        <div className="rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
+          <div className="flex h-32 items-end gap-[2px]">
+            {series.map((s, i) => (
+              <div
+                key={i}
+                title={`${s.label}: ${s.count} 次`}
+                className={`flex-1 rounded-t-sm ${
+                  s.isToday
+                    ? "bg-indigo-500"
+                    : "bg-indigo-300 dark:bg-indigo-800"
+                }`}
+                style={{ height: `${Math.max(2, (s.count / maxCount) * 100)}%` }}
+              />
+            ))}
+          </div>
+          <div className="mt-2 flex justify-between text-[10px] text-zinc-400">
+            <span>{series[0]?.label}</span>
+            <span>今天 {series[29]?.count} 次</span>
+          </div>
+        </div>
+      </section>
 
       <section>
         <h2 className="mb-3 text-lg font-semibold">最近更新</h2>

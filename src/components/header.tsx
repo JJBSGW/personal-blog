@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const nav = [
   { href: "/", label: "首页" },
@@ -34,6 +35,7 @@ export function Header() {
             className="h-8 w-36 rounded-full border border-zinc-300 bg-transparent px-3 text-sm outline-none transition-all focus:w-48 focus:border-zinc-500 dark:border-zinc-700"
           />
         </form>
+        <ThemeToggle />
       </div>
     </header>
   );

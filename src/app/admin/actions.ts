@@ -5,6 +5,31 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { slugify } from "@/lib/markdown";
 import { requireAdmin } from "@/lib/auth";
+import { deletePostFromIndex, indexPost } from "@/lib/search";
+
+/** 将文章同步到搜索索引(仅已发布文章;失败不影响主流程) */
+async function syncPostToSearch(postId: string) {
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    include: { tags: true, category: true },
+  });
+  if (!post) return;
+  if (post.status !== "PUBLISHED") {
+    await deletePostFromIndex(postId).catch(() => {});
+    return;
+  }
+  await indexPost({
+    id: post.id,
+    title: post.title,
+    content: post.content,
+    summary: post.summary ?? "",
+    slug: post.slug,
+    tags: post.tags.map((t) => t.name),
+    category: post.category?.name ?? null,
+    status: post.status,
+    publishedAt: post.publishedAt?.getTime() ?? 0,
+  }).catch(() => {});
+}
 
 export interface FormState {
   error?: string;
@@ -69,6 +94,7 @@ export async function createPost(
   revalidatePath("/");
   revalidatePath(`/posts/${post.slug}`);
   revalidatePath("/admin/posts");
+  await syncPostToSearch(post.id);
   redirect(`/admin/posts/${post.id}/edit?created=1`);
 }
 
@@ -107,12 +133,14 @@ export async function updatePost(
   revalidatePath("/");
   revalidatePath(`/posts/${post.slug}`);
   revalidatePath("/admin/posts");
+  await syncPostToSearch(post.id);
   redirect(`/admin/posts/${post.id}/edit?saved=1`);
 }
 
 export async function deletePost(id: string) {
   await requireAdmin();
   await prisma.post.delete({ where: { id } });
+  await deletePostFromIndex(id).catch(() => {});
   revalidatePath("/");
   revalidatePath("/admin/posts");
   redirect("/admin/posts");

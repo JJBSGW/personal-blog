@@ -8,6 +8,7 @@ import {
 import { Markdown } from "@/components/markdown";
 import { Toc } from "@/components/toc";
 import { formatDate, readingMinutes } from "@/components/post-card";
+import { ViewTracker } from "@/components/view-tracker";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,7 @@ export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
 
   return (
     <article className="space-y-6">
+      <ViewTracker slug={post.slug} />
       <header>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
           {post.category && (
