@@ -58,7 +58,7 @@ html {
   box-shadow:
     0 2px 16px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
-  transition: box-shadow 0.25s ease;
+  transition: box-shadow 0.5s ease-out;
 }
 
 .dark .glass {
@@ -69,20 +69,20 @@ html {
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-/* 悬停:边缘亮起 + 光晕向外扩散(卡片本身不变亮) */
+/* 悬停:边缘柔和亮起 + 光晕向外缓慢扩散(卡片本身不变亮) */
 .glass:hover {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.9),
-    0 0 22px rgba(255, 255, 255, 0.35),
-    0 0 52px rgba(255, 255, 255, 0.16),
-    0 2px 12px rgba(0, 0, 0, 0.08);
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    0 0 24px rgba(255, 255, 255, 0.28),
+    0 0 56px rgba(255, 255, 255, 0.12),
+    0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .dark .glass:hover {
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.4),
-    0 0 22px rgba(255, 255, 255, 0.22),
-    0 0 52px rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 0 24px rgba(255, 255, 255, 0.18),
+    0 0 56px rgba(255, 255, 255, 0.08),
     0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
