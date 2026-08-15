@@ -340,10 +340,26 @@ async function main() {
     create: { id: 1, data: resumeData },
   });
 
+  // 友链占位(仅在没有任何友链时创建;后台可自由增删)
+  const linkCount = await prisma.friendLink.count();
+  if (linkCount === 0) {
+    await prisma.friendLink.createMany({
+      data: [
+        { name: "Next.js 官方", url: "https://nextjs.org", description: "本博客使用的框架,文档齐全", sort: 1 },
+        { name: "Prisma 官方", url: "https://www.prisma.io", description: "类型安全的数据库 ORM", sort: 2 },
+        { name: "Meilisearch 官方", url: "https://www.meilisearch.com", description: "全文搜索引擎,中文分词很棒", sort: 3 },
+        { name: "PostgreSQL 官方", url: "https://www.postgresql.org", description: "最可靠的开源关系型数据库", sort: 4 },
+        { name: "MDN Web Docs", url: "https://developer.mozilla.org/zh-CN/", description: "前端开发者必备手册", sort: 5 },
+      ],
+    });
+    console.log("友链占位已创建(5 条)");
+  }
+
   const counts = {
     posts: await prisma.post.count(),
     tags: await prisma.tag.count(),
     categories: await prisma.category.count(),
+    links: await prisma.friendLink.count(),
   };
   console.log("种子数据写入完成:", counts);
 }

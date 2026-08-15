@@ -142,7 +142,7 @@ export function PostForm({
             className="h-10 w-full rounded-lg border border-zinc-300 bg-transparent px-3 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700"
           />
           <p className="mt-1 text-xs text-zinc-400">
-            状态选"草稿"并填未来时间 = 到点自动上线
+            状态选「草稿」并填未来时间 = 到点自动上线
           </p>
         </div>
       </div>

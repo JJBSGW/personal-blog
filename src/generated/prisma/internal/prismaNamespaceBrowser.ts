@@ -54,6 +54,7 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   SiteConfig: 'SiteConfig',
+  FriendLink: 'FriendLink',
   Post: 'Post',
   Category: 'Category',
   Tag: 'Tag',
@@ -108,6 +109,18 @@ export const SiteConfigScalarFieldEnum = {
 } as const
 
 export type SiteConfigScalarFieldEnum = (typeof SiteConfigScalarFieldEnum)[keyof typeof SiteConfigScalarFieldEnum]
+
+
+export const FriendLinkScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  description: 'description',
+  sort: 'sort',
+  createdAt: 'createdAt'
+} as const
+
+export type FriendLinkScalarFieldEnum = (typeof FriendLinkScalarFieldEnum)[keyof typeof FriendLinkScalarFieldEnum]
 
 
 export const PostScalarFieldEnum = {

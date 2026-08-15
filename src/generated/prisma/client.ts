@@ -57,6 +57,11 @@ export type Session = Prisma.SessionModel
  */
 export type SiteConfig = Prisma.SiteConfigModel
 /**
+ * Model FriendLink
+ * 友链
+ */
+export type FriendLink = Prisma.FriendLinkModel
+/**
  * Model Post
  * 文章
  */

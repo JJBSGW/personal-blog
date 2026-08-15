@@ -400,6 +400,7 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   SiteConfig: 'SiteConfig',
+  FriendLink: 'FriendLink',
   Post: 'Post',
   Category: 'Category',
   Tag: 'Tag',
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "siteConfig" | "post" | "category" | "tag" | "viewLog" | "comment" | "resume"
+    modelProps: "user" | "session" | "siteConfig" | "friendLink" | "post" | "category" | "tag" | "viewLog" | "comment" | "resume"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -644,6 +645,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SiteConfigCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SiteConfigCountAggregateOutputType> | number
+        }
+      }
+    }
+    FriendLink: {
+      payload: Prisma.$FriendLinkPayload<ExtArgs>
+      fields: Prisma.FriendLinkFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FriendLinkFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FriendLinkFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>
+        }
+        findFirst: {
+          args: Prisma.FriendLinkFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FriendLinkFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>
+        }
+        findMany: {
+          args: Prisma.FriendLinkFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>[]
+        }
+        create: {
+          args: Prisma.FriendLinkCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>
+        }
+        createMany: {
+          args: Prisma.FriendLinkCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FriendLinkCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>[]
+        }
+        delete: {
+          args: Prisma.FriendLinkDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>
+        }
+        update: {
+          args: Prisma.FriendLinkUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>
+        }
+        deleteMany: {
+          args: Prisma.FriendLinkDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FriendLinkUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FriendLinkUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>[]
+        }
+        upsert: {
+          args: Prisma.FriendLinkUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FriendLinkPayload>
+        }
+        aggregate: {
+          args: Prisma.FriendLinkAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFriendLink>
+        }
+        groupBy: {
+          args: Prisma.FriendLinkGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FriendLinkGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FriendLinkCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FriendLinkCountAggregateOutputType> | number
         }
       }
     }
@@ -1162,6 +1237,18 @@ export const SiteConfigScalarFieldEnum = {
 export type SiteConfigScalarFieldEnum = (typeof SiteConfigScalarFieldEnum)[keyof typeof SiteConfigScalarFieldEnum]
 
 
+export const FriendLinkScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  url: 'url',
+  description: 'description',
+  sort: 'sort',
+  createdAt: 'createdAt'
+} as const
+
+export type FriendLinkScalarFieldEnum = (typeof FriendLinkScalarFieldEnum)[keyof typeof FriendLinkScalarFieldEnum]
+
+
 export const PostScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1513,6 +1600,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
   siteConfig?: Prisma.SiteConfigOmit
+  friendLink?: Prisma.FriendLinkOmit
   post?: Prisma.PostOmit
   category?: Prisma.CategoryOmit
   tag?: Prisma.TagOmit

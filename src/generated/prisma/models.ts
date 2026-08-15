@@ -11,6 +11,7 @@
 export type * from './models/User'
 export type * from './models/Session'
 export type * from './models/SiteConfig'
+export type * from './models/FriendLink'
 export type * from './models/Post'
 export type * from './models/Category'
 export type * from './models/Tag'

@@ -215,6 +215,37 @@ export async function deleteCategory(id: string) {
   redirect("/admin/tags");
 }
 
+// ---------- 友链 ----------
+
+export async function createLink(
+  _prev: FormState,
+  formData: FormData
+): Promise<FormState> {
+  await requireAdmin();
+  const name = String(formData.get("name") ?? "").trim();
+  const url = String(formData.get("url") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const sort = Math.max(0, Number(formData.get("sort")) || 0);
+  if (!name || !url) return { error: "名称和链接不能为空" };
+  if (!/^https?:\/\//.test(url)) {
+    return { error: "链接需以 http:// 或 https:// 开头" };
+  }
+  await prisma.friendLink.create({
+    data: { name, url, description, sort },
+  });
+  revalidatePath("/links");
+  revalidatePath("/admin/links");
+  return { ok: true };
+}
+
+export async function deleteLink(id: string) {
+  await requireAdmin();
+  await prisma.friendLink.delete({ where: { id } });
+  revalidatePath("/links");
+  revalidatePath("/admin/links");
+  redirect("/admin/links");
+}
+
 // ---------- 评论 ----------
 
 export async function deleteComment(id: string) {

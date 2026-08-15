@@ -5,6 +5,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 const nav = [
   { href: "/", label: "首页" },
   { href: "/tags", label: "标签" },
+  { href: "/links", label: "友链" },
   { href: "/about", label: "关于" },
   { href: "/resume", label: "简历" },
 ];

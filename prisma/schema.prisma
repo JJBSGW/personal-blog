@@ -43,6 +43,18 @@ model SiteConfig {
   updatedAt    DateTime @updatedAt
 }
 
+/// 友链
+model FriendLink {
+  id          String   @id @default(cuid())
+  name        String
+  url         String
+  description String?
+  sort        Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([sort])
+}
+
 /// 文章
 model Post {
   id          String     @id @default(cuid())

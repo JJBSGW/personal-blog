@@ -34,7 +34,8 @@
 **预留扩展(已实现部分)**
 - ✅ 评论(蜜罐防垃圾 + IP 限流 + 后台管理删除)
 - ✅ 定时发布(草稿 + 未来发布时间,到点自动上线)
-- ⏳ 友链、视觉效果:shadcn/ui 组件、framer-motion 动画、three.js 3D 特效
+- ✅ 友链(前台 `/links` + 后台增删 + 排序)
+- ⏳ 视觉效果:shadcn/ui 组件、framer-motion 动画、three.js 3D 特效
 
 ## 五、数据模型
 - `User` — 管理员账号
