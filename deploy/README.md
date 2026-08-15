@@ -92,16 +92,12 @@ docker compose up -d --build
 ### 初始化管理员账号
 
 ```bash
-# 进入 web 容器创建管理员(邮箱 + 至少8位密码)
-docker compose exec web npx tsx scripts/create-admin.mts 你的邮箱 你的密码
+# 在 web 容器中创建管理员(镜像已内置脚本与依赖,密码至少 8 位)
+docker compose exec web node scripts/create-admin.mjs 你的邮箱 你的密码
 ```
 
-> 注意:容器镜像里不包含 tsx(它是 devDependency)。因此请改为在**服务器本机**(不装依赖会缺库)执行——最稳妥的方式是部署后通过 web 容器直接操作数据库,或本地执行脚本后推送数据库。简化方案:
-> 启动后用以下命令在容器里创建管理员(镜像含 prisma CLI 与 dotenv,但 tsx 没有;推荐用 node 直连方式):
-> ```bash
-> docker compose exec web node -e "const{PrismaClient}=require('@prisma/client');..."
-> ```
-> 更省事的替代:**在本地开发环境**运行 `npx tsx scripts/create-admin.mts 你的邮箱 你的密码`(本地库与生产库分离,此操作针对生产库请在服务器执行,或直接用 prisma studio 添加)。
+> 本地开发环境用同样的脚本:`node scripts/create-admin.mjs 你的邮箱 你的密码`
+> (或 `npx tsx scripts/create-admin.mts`,两者哈希格式一致,可随时重跑重置密码)
 
 ### 同步搜索索引(首次部署后)
 
@@ -118,7 +114,7 @@ docker compose exec web npx prisma generate   # 已由构建完成,可跳过
 | 查看日志 | `docker compose logs -f web` |
 | 重启应用 | `docker compose restart web` |
 | 更新代码 | `cd /opt/blog && git pull && cd deploy && docker compose up -d --build` |
-| 全量重建搜索索引 | `docker compose exec web sh -c "cd /app && npx tsx scripts/sync-search.mts"`(镜像无 tsx 时改用 Node 脚本) |
+| 全量重建搜索索引 | `docker compose exec web node scripts/sync-search.mjs`(本地:`npx tsx scripts/sync-search.mts`) |
 
 ## 7. 备份与恢复
 
