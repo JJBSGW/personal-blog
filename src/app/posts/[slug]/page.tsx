@@ -10,6 +10,7 @@ import { Toc } from "@/components/toc";
 import { formatDate, readingMinutes } from "@/components/post-card";
 import { ViewTracker } from "@/components/view-tracker";
 import { CommentForm } from "@/components/comment-form";
+import { ReadingWidget } from "@/components/reading-widget";
 import { siteConfig } from "@/lib/site";
 import { prisma } from "@/lib/db";
 
@@ -47,6 +48,7 @@ export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
 
   return (
     <article className="space-y-6">
+      <ReadingWidget />
       <ViewTracker slug={post.slug} />
       <header>
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
