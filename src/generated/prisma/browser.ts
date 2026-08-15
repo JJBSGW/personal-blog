@@ -54,7 +54,7 @@ export type Tag = Prisma.TagModel
 export type ViewLog = Prisma.ViewLogModel
 /**
  * Model Comment
- * 评论(预留)
+ * 评论
  */
 export type Comment = Prisma.CommentModel
 /**

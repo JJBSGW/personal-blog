@@ -7,14 +7,17 @@ import { slugify } from "@/lib/markdown";
 import { requireAdmin } from "@/lib/auth";
 import { deletePostFromIndex, indexPost } from "@/lib/search";
 
-/** 将文章同步到搜索索引(仅已发布文章;失败不影响主流程) */
+/** 将文章同步到搜索索引(仅可见文章;失败不影响主流程) */
 async function syncPostToSearch(postId: string) {
   const post = await prisma.post.findUnique({
     where: { id: postId },
     include: { tags: true, category: true },
   });
   if (!post) return;
-  if (post.status !== "PUBLISHED") {
+  const visible =
+    post.status === "PUBLISHED" ||
+    (post.status === "DRAFT" && post.publishedAt !== null && post.publishedAt <= new Date());
+  if (!visible) {
     await deletePostFromIndex(postId).catch(() => {});
     return;
   }
@@ -60,7 +63,10 @@ function parsePostForm(formData: FormData) {
   const status = formData.get("status") === PUBLISHED ? PUBLISHED : DRAFT;
   const categoryId = String(formData.get("categoryId") ?? "") || null;
   const tagSlugs = formData.getAll("tags").map(String);
-  return { title, content, summary, rawSlug, status, categoryId, tagSlugs };
+  // 定时发布:DRAFT + scheduledAt → 到点自动可见
+  const scheduledRaw = String(formData.get("scheduledAt") ?? "").trim();
+  const scheduledAt = scheduledRaw ? new Date(scheduledRaw) : null;
+  return { title, content, summary, rawSlug, status, categoryId, tagSlugs, scheduledAt };
 }
 
 // ---------- 文章 ----------
@@ -70,7 +76,7 @@ export async function createPost(
   formData: FormData
 ): Promise<FormState> {
   await requireAdmin();
-  const { title, content, summary, rawSlug, status, categoryId, tagSlugs } =
+  const { title, content, summary, rawSlug, status, categoryId, tagSlugs, scheduledAt } =
     parsePostForm(formData);
   if (!title) return { error: "标题不能为空" };
 
@@ -86,7 +92,7 @@ export async function createPost(
       summary,
       content,
       status,
-      publishedAt: status === PUBLISHED ? new Date() : null,
+      publishedAt: status === PUBLISHED ? new Date() : scheduledAt,
       categoryId,
       tags: { connect: validTags.map((t) => ({ slug: t.slug })) },
     },
@@ -107,7 +113,7 @@ export async function updatePost(
   const existing = await prisma.post.findUnique({ where: { id } });
   if (!existing) return { error: "文章不存在" };
 
-  const { title, content, summary, rawSlug, status, categoryId, tagSlugs } =
+  const { title, content, summary, rawSlug, status, categoryId, tagSlugs, scheduledAt } =
     parsePostForm(formData);
   if (!title) return { error: "标题不能为空" };
 
@@ -125,7 +131,7 @@ export async function updatePost(
       content,
       status,
       publishedAt:
-        status === PUBLISHED ? existing.publishedAt ?? new Date() : null,
+        status === PUBLISHED ? existing.publishedAt ?? new Date() : scheduledAt,
       categoryId,
       tags: { set: validTags.map((t) => ({ slug: t.slug })) },
     },
@@ -207,6 +213,15 @@ export async function deleteCategory(id: string) {
   revalidatePath("/categories");
   revalidatePath("/admin/tags");
   redirect("/admin/tags");
+}
+
+// ---------- 评论 ----------
+
+export async function deleteComment(id: string) {
+  await requireAdmin();
+  await prisma.comment.delete({ where: { id } });
+  revalidatePath("/admin/comments");
+  redirect("/admin/comments");
 }
 
 // ---------- 简历 ----------

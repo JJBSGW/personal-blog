@@ -7,7 +7,13 @@ export async function POST(
 ) {
   const { slug } = await params;
   const post = await prisma.post.findFirst({
-    where: { slug, status: "PUBLISHED" },
+    where: {
+      slug,
+      OR: [
+        { status: "PUBLISHED" },
+        { status: "DRAFT", publishedAt: { lte: new Date() } },
+      ],
+    },
     select: { id: true },
   });
   if (!post) {

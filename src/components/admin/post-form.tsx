@@ -34,6 +34,7 @@ export function PostForm({
     status?: string;
     categoryId?: string | null;
     tagSlugs?: string[];
+    scheduledAt?: string;
   };
   submitLabel: string;
 }) {
@@ -130,23 +131,39 @@ export function PostForm({
           </select>
         </div>
         <div>
-          <label className="mb-1 block text-sm" htmlFor="post-category">
-            分类
+          <label className="mb-1 block text-sm" htmlFor="post-scheduled">
+            定时发布时间(草稿时生效)
           </label>
-          <select
-            id="post-category"
-            name="categoryId"
-            defaultValue={initial?.categoryId ?? ""}
+          <input
+            id="post-scheduled"
+            name="scheduledAt"
+            type="datetime-local"
+            defaultValue={initial?.scheduledAt ?? ""}
             className="h-10 w-full rounded-lg border border-zinc-300 bg-transparent px-3 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700"
-          >
-            <option value="">(无分类)</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.name}
-              </option>
-            ))}
-          </select>
+          />
+          <p className="mt-1 text-xs text-zinc-400">
+            状态选"草稿"并填未来时间 = 到点自动上线
+          </p>
         </div>
+      </div>
+
+      <div>
+        <label className="mb-1 block text-sm" htmlFor="post-category">
+          分类
+        </label>
+        <select
+          id="post-category"
+          name="categoryId"
+          defaultValue={initial?.categoryId ?? ""}
+          className="h-10 w-full rounded-lg border border-zinc-300 bg-transparent px-3 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700"
+        >
+          <option value="">(无分类)</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>

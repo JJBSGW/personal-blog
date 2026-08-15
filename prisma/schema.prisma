@@ -93,14 +93,18 @@ model ViewLog {
   @@index([postId, date])
 }
 
-/// 评论(预留)
+/// 评论
 model Comment {
   id        String   @id @default(cuid())
   postId    String
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   author    String
   content   String
+  ip        String?
+  userAgent String?
   createdAt DateTime @default(now())
+
+  @@index([postId, createdAt])
 }
 
 /// 个人简历(结构化数据,单行,后台可编辑)

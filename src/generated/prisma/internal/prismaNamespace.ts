@@ -1213,6 +1213,8 @@ export const CommentScalarFieldEnum = {
   postId: 'postId',
   author: 'author',
   content: 'content',
+  ip: 'ip',
+  userAgent: 'userAgent',
   createdAt: 'createdAt'
 } as const
 

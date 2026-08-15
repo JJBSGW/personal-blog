@@ -9,7 +9,9 @@ import { Markdown } from "@/components/markdown";
 import { Toc } from "@/components/toc";
 import { formatDate, readingMinutes } from "@/components/post-card";
 import { ViewTracker } from "@/components/view-tracker";
+import { CommentForm } from "@/components/comment-form";
 import { siteConfig } from "@/lib/site";
+import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +40,10 @@ export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
   if (!post) notFound();
 
   const { prev, next } = await getPostNeighbors(post);
+  const comments = await prisma.comment.findMany({
+    where: { postId: post.id },
+    orderBy: { createdAt: "asc" },
+  });
 
   return (
     <article className="space-y-6">
@@ -78,6 +84,34 @@ export default async function PostPage({ params }: PageProps<"/posts/[slug]">) {
       <Toc content={post.content} />
 
       <Markdown content={post.content} />
+
+      {/* 评论区 */}
+      <section className="border-t border-zinc-200 pt-6 dark:border-zinc-800">
+        <h2 className="text-xl font-bold">
+          评论{comments.length > 0 && `(${comments.length})`}
+        </h2>
+        {comments.length > 0 && (
+          <ul className="mt-4 space-y-4">
+            {comments.map((c) => (
+              <li
+                key={c.id}
+                className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800"
+              >
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="font-medium">{c.author}</span>
+                  <span className="text-xs text-zinc-400">
+                    {formatDate(c.createdAt)}
+                  </span>
+                </div>
+                <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">
+                  {c.content}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+        <CommentForm slug={post.slug} />
+      </section>
 
       <nav className="grid gap-3 border-t border-zinc-200 pt-5 text-sm sm:grid-cols-2 dark:border-zinc-800">
         {prev ? (

@@ -14,7 +14,7 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Comment
- * 评论(预留)
+ * 评论
  */
 export type CommentModel = runtime.Types.Result.DefaultSelection<Prisma.$CommentPayload>
 
@@ -29,6 +29,8 @@ export type CommentMinAggregateOutputType = {
   postId: string | null
   author: string | null
   content: string | null
+  ip: string | null
+  userAgent: string | null
   createdAt: Date | null
 }
 
@@ -37,6 +39,8 @@ export type CommentMaxAggregateOutputType = {
   postId: string | null
   author: string | null
   content: string | null
+  ip: string | null
+  userAgent: string | null
   createdAt: Date | null
 }
 
@@ -45,6 +49,8 @@ export type CommentCountAggregateOutputType = {
   postId: number
   author: number
   content: number
+  ip: number
+  userAgent: number
   createdAt: number
   _all: number
 }
@@ -55,6 +61,8 @@ export type CommentMinAggregateInputType = {
   postId?: true
   author?: true
   content?: true
+  ip?: true
+  userAgent?: true
   createdAt?: true
 }
 
@@ -63,6 +71,8 @@ export type CommentMaxAggregateInputType = {
   postId?: true
   author?: true
   content?: true
+  ip?: true
+  userAgent?: true
   createdAt?: true
 }
 
@@ -71,6 +81,8 @@ export type CommentCountAggregateInputType = {
   postId?: true
   author?: true
   content?: true
+  ip?: true
+  userAgent?: true
   createdAt?: true
   _all?: true
 }
@@ -152,6 +164,8 @@ export type CommentGroupByOutputType = {
   postId: string
   author: string
   content: string
+  ip: string | null
+  userAgent: string | null
   createdAt: Date
   _count: CommentCountAggregateOutputType | null
   _min: CommentMinAggregateOutputType | null
@@ -181,6 +195,8 @@ export type CommentWhereInput = {
   postId?: Prisma.StringFilter<"Comment"> | string
   author?: Prisma.StringFilter<"Comment"> | string
   content?: Prisma.StringFilter<"Comment"> | string
+  ip?: Prisma.StringNullableFilter<"Comment"> | string | null
+  userAgent?: Prisma.StringNullableFilter<"Comment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
   post?: Prisma.XOR<Prisma.PostScalarRelationFilter, Prisma.PostWhereInput>
 }
@@ -190,6 +206,8 @@ export type CommentOrderByWithRelationInput = {
   postId?: Prisma.SortOrder
   author?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  ip?: Prisma.SortOrderInput | Prisma.SortOrder
+  userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   post?: Prisma.PostOrderByWithRelationInput
 }
@@ -202,6 +220,8 @@ export type CommentWhereUniqueInput = Prisma.AtLeast<{
   postId?: Prisma.StringFilter<"Comment"> | string
   author?: Prisma.StringFilter<"Comment"> | string
   content?: Prisma.StringFilter<"Comment"> | string
+  ip?: Prisma.StringNullableFilter<"Comment"> | string | null
+  userAgent?: Prisma.StringNullableFilter<"Comment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
   post?: Prisma.XOR<Prisma.PostScalarRelationFilter, Prisma.PostWhereInput>
 }, "id">
@@ -211,6 +231,8 @@ export type CommentOrderByWithAggregationInput = {
   postId?: Prisma.SortOrder
   author?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  ip?: Prisma.SortOrderInput | Prisma.SortOrder
+  userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.CommentCountOrderByAggregateInput
   _max?: Prisma.CommentMaxOrderByAggregateInput
@@ -225,6 +247,8 @@ export type CommentScalarWhereWithAggregatesInput = {
   postId?: Prisma.StringWithAggregatesFilter<"Comment"> | string
   author?: Prisma.StringWithAggregatesFilter<"Comment"> | string
   content?: Prisma.StringWithAggregatesFilter<"Comment"> | string
+  ip?: Prisma.StringNullableWithAggregatesFilter<"Comment"> | string | null
+  userAgent?: Prisma.StringNullableWithAggregatesFilter<"Comment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Comment"> | Date | string
 }
 
@@ -232,6 +256,8 @@ export type CommentCreateInput = {
   id?: string
   author: string
   content: string
+  ip?: string | null
+  userAgent?: string | null
   createdAt?: Date | string
   post: Prisma.PostCreateNestedOneWithoutCommentsInput
 }
@@ -241,6 +267,8 @@ export type CommentUncheckedCreateInput = {
   postId: string
   author: string
   content: string
+  ip?: string | null
+  userAgent?: string | null
   createdAt?: Date | string
 }
 
@@ -248,6 +276,8 @@ export type CommentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   post?: Prisma.PostUpdateOneRequiredWithoutCommentsNestedInput
 }
@@ -257,6 +287,8 @@ export type CommentUncheckedUpdateInput = {
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -265,6 +297,8 @@ export type CommentCreateManyInput = {
   postId: string
   author: string
   content: string
+  ip?: string | null
+  userAgent?: string | null
   createdAt?: Date | string
 }
 
@@ -272,6 +306,8 @@ export type CommentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -280,6 +316,8 @@ export type CommentUncheckedUpdateManyInput = {
   postId?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -298,6 +336,8 @@ export type CommentCountOrderByAggregateInput = {
   postId?: Prisma.SortOrder
   author?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
+  userAgent?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -306,6 +346,8 @@ export type CommentMaxOrderByAggregateInput = {
   postId?: Prisma.SortOrder
   author?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
+  userAgent?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -314,6 +356,8 @@ export type CommentMinOrderByAggregateInput = {
   postId?: Prisma.SortOrder
   author?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
+  userAgent?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -363,6 +407,8 @@ export type CommentCreateWithoutPostInput = {
   id?: string
   author: string
   content: string
+  ip?: string | null
+  userAgent?: string | null
   createdAt?: Date | string
 }
 
@@ -370,6 +416,8 @@ export type CommentUncheckedCreateWithoutPostInput = {
   id?: string
   author: string
   content: string
+  ip?: string | null
+  userAgent?: string | null
   createdAt?: Date | string
 }
 
@@ -407,6 +455,8 @@ export type CommentScalarWhereInput = {
   postId?: Prisma.StringFilter<"Comment"> | string
   author?: Prisma.StringFilter<"Comment"> | string
   content?: Prisma.StringFilter<"Comment"> | string
+  ip?: Prisma.StringNullableFilter<"Comment"> | string | null
+  userAgent?: Prisma.StringNullableFilter<"Comment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Comment"> | Date | string
 }
 
@@ -414,6 +464,8 @@ export type CommentCreateManyPostInput = {
   id?: string
   author: string
   content: string
+  ip?: string | null
+  userAgent?: string | null
   createdAt?: Date | string
 }
 
@@ -421,6 +473,8 @@ export type CommentUpdateWithoutPostInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -428,6 +482,8 @@ export type CommentUncheckedUpdateWithoutPostInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -435,6 +491,8 @@ export type CommentUncheckedUpdateManyWithoutPostInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   author?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -445,6 +503,8 @@ export type CommentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   postId?: boolean
   author?: boolean
   content?: boolean
+  ip?: boolean
+  userAgent?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["comment"]>
@@ -454,6 +514,8 @@ export type CommentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   postId?: boolean
   author?: boolean
   content?: boolean
+  ip?: boolean
+  userAgent?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["comment"]>
@@ -463,6 +525,8 @@ export type CommentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   postId?: boolean
   author?: boolean
   content?: boolean
+  ip?: boolean
+  userAgent?: boolean
   createdAt?: boolean
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["comment"]>
@@ -472,10 +536,12 @@ export type CommentSelectScalar = {
   postId?: boolean
   author?: boolean
   content?: boolean
+  ip?: boolean
+  userAgent?: boolean
   createdAt?: boolean
 }
 
-export type CommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "author" | "content" | "createdAt", ExtArgs["result"]["comment"]>
+export type CommentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "author" | "content" | "ip" | "userAgent" | "createdAt", ExtArgs["result"]["comment"]>
 export type CommentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   post?: boolean | Prisma.PostDefaultArgs<ExtArgs>
 }
@@ -496,6 +562,8 @@ export type $CommentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     postId: string
     author: string
     content: string
+    ip: string | null
+    userAgent: string | null
     createdAt: Date
   }, ExtArgs["result"]["comment"]>
   composites: {}
@@ -925,6 +993,8 @@ export interface CommentFieldRefs {
   readonly postId: Prisma.FieldRef<"Comment", 'String'>
   readonly author: Prisma.FieldRef<"Comment", 'String'>
   readonly content: Prisma.FieldRef<"Comment", 'String'>
+  readonly ip: Prisma.FieldRef<"Comment", 'String'>
+  readonly userAgent: Prisma.FieldRef<"Comment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Comment", 'DateTime'>
 }
     

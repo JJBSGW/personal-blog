@@ -23,14 +23,24 @@ export interface ListResult {
 
 const PUBLISHED = "PUBLISHED";
 
+/**
+ * "可见"条件:已发布,或"定时发布"已到时间(DRAFT + publishedAt <= 现在)
+ * 由此实现零基础设施的定时发布
+ */
+function visibleWhere(extra: Prisma.PostWhereInput = {}): Prisma.PostWhereInput {
+  return {
+    OR: [{ status: PUBLISHED }, { status: "DRAFT", publishedAt: { lte: new Date() } }],
+    ...extra,
+  };
+}
+
 export async function listPublishedPosts(opts: ListOptions = {}): Promise<ListResult> {
   const page = Math.max(1, opts.page ?? 1);
   const pageSize = Math.min(50, Math.max(1, opts.pageSize ?? 10));
-  const where: Prisma.PostWhereInput = {
-    status: PUBLISHED,
+  const where = visibleWhere({
     ...(opts.tagSlug ? { tags: { some: { slug: opts.tagSlug } } } : {}),
     ...(opts.categorySlug ? { category: { slug: opts.categorySlug } } : {}),
-  };
+  });
   const [posts, total] = await Promise.all([
     prisma.post.findMany({
       where,
@@ -46,12 +56,12 @@ export async function listPublishedPosts(opts: ListOptions = {}): Promise<ListRe
 
 export async function getPublishedPostBySlug(slug: string) {
   return prisma.post.findFirst({
-    where: { slug, status: PUBLISHED },
+    where: visibleWhere({ slug }),
     include: { tags: true, category: true },
   });
 }
 
-/** 上一篇 / 下一篇(按发布时间相邻) */
+/** 上一篇 / 下一篇(按发布时间相邻,仅考虑可见文章) */
 export async function getPostNeighbors(post: {
   slug: string;
   publishedAt: Date | null;
@@ -60,12 +70,12 @@ export async function getPostNeighbors(post: {
   const anchor = post.publishedAt ?? post.createdAt;
   const [prev, next] = await Promise.all([
     prisma.post.findFirst({
-      where: { status: PUBLISHED, publishedAt: { lt: anchor } },
+      where: visibleWhere({ publishedAt: { lt: anchor } }),
       orderBy: { publishedAt: "desc" },
       select: { slug: true, title: true },
     }),
     prisma.post.findFirst({
-      where: { status: PUBLISHED, publishedAt: { gt: anchor } },
+      where: visibleWhere({ publishedAt: { gt: anchor } }),
       orderBy: { publishedAt: "asc" },
       select: { slug: true, title: true },
     }),

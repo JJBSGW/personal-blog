@@ -27,6 +27,16 @@ export default async function EditPostPage({
   const sp = await searchParams;
   const notice = sp.created ? "文章已创建 ✅" : sp.saved ? "已保存 ✅" : null;
 
+  // datetime-local 需要本地时区的 "YYYY-MM-DDTHH:mm"
+  const scheduledAt =
+    post.status === "DRAFT" && post.publishedAt
+      ? new Date(
+          post.publishedAt.getTime() - post.publishedAt.getTimezoneOffset() * 60000
+        )
+          .toISOString()
+          .slice(0, 16)
+      : "";
+
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
@@ -56,6 +66,7 @@ export default async function EditPostPage({
           status: post.status,
           categoryId: post.categoryId,
           tagSlugs: post.tags.map((t) => t.slug),
+          scheduledAt,
         }}
         submitLabel="保存修改"
       />
