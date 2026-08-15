@@ -7,6 +7,16 @@ import { prisma } from "@/lib/db";
 export const SESSION_COOKIE = "blog_session";
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 天
 
+/** 角色(与 Prisma UserRole 对齐,便于未来扩展) */
+export type UserRole = "ADMIN" | "EDITOR";
+
+export interface SessionUser {
+  id: string;
+  email: string;
+  name: string | null;
+  role: UserRole;
+}
+
 export async function createSession(userId: string): Promise<string> {
   const token = crypto.randomBytes(32).toString("hex");
   await prisma.session.create({
@@ -19,7 +29,7 @@ export async function createSession(userId: string): Promise<string> {
   return token;
 }
 
-export async function getSessionUser() {
+export async function getSessionUser(): Promise<SessionUser | null> {
   const store = await cookies();
   const token = store.get(SESSION_COOKIE)?.value;
   if (!token) return null;
@@ -32,14 +42,29 @@ export async function getSessionUser() {
     await prisma.session.delete({ where: { id: session.id } }).catch(() => {});
     return null;
   }
-  return session.user;
+  return {
+    id: session.user.id,
+    email: session.user.email,
+    name: session.user.name,
+    role: session.user.role as UserRole,
+  };
 }
 
-/** 后台页面守卫:未登录则跳转登录页 */
-export async function requireAdmin() {
+/**
+ * 角色守卫(向外接口):校验登录并要求指定角色之一。
+ * - 未登录 → 跳转 /admin/login
+ * - 已登录但角色不符 → 跳转首页
+ */
+export async function requireRole(...roles: UserRole[]): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) redirect("/admin/login");
+  if (roles.length > 0 && !roles.includes(user.role)) redirect("/");
   return user;
+}
+
+/** 后台页面守卫:要求管理员角色(兼容旧调用) */
+export async function requireAdmin(): Promise<SessionUser> {
+  return requireRole("ADMIN");
 }
 
 export async function destroySession(token: string) {

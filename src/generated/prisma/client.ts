@@ -43,7 +43,7 @@ export { Prisma }
 
 /**
  * Model User
- * 管理员账号(只有你能登录后台)
+ * 用户账号(可多账号,按角色区分权限)
  */
 export type User = Prisma.UserModel
 /**

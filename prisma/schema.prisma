@@ -13,12 +13,19 @@ enum PostStatus {
   PUBLISHED
 }
 
-/// 管理员账号(只有你能登录后台)
+/// 用户角色:ADMIN=管理员(全部权限);EDITOR=编辑(仅内容管理)
+enum UserRole {
+  ADMIN
+  EDITOR
+}
+
+/// 用户账号(可多账号,按角色区分权限)
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
   name         String?
   passwordHash String
+  role         UserRole  @default(ADMIN)
   sessions     Session[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt

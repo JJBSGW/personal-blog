@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listPostsForArchive } from "@/lib/posts";
-import { formatDate } from "@/components/post-card";
+import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 

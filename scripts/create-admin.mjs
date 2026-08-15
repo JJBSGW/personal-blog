@@ -26,11 +26,12 @@ const hash = await new Promise((resolve, reject) => {
 const stored = `scrypt$${salt.toString("hex")}$${hash.toString("hex")}`;
 
 await client.query(
-  `INSERT INTO "User" (id, email, name, "passwordHash", "createdAt", "updatedAt")
-   VALUES ($1, $2, $3, $4, now(), now())
+  `INSERT INTO "User" (id, email, name, "passwordHash", role, "createdAt", "updatedAt")
+   VALUES ($1, $2, $3, $4, 'ADMIN', now(), now())
    ON CONFLICT (email) DO UPDATE
      SET "passwordHash" = EXCLUDED."passwordHash",
          name = EXCLUDED.name,
+         role = 'ADMIN',
          "updatedAt" = now()`,
   [crypto.randomUUID(), email, email.split("@")[0], stored]
 );

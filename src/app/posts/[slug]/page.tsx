@@ -8,7 +8,7 @@ import {
 } from "@/lib/posts";
 import { Markdown } from "@/components/markdown";
 import { Toc } from "@/components/toc";
-import { formatDate, readingMinutes } from "@/components/post-card";
+import { formatDate, readingMinutes } from "@/lib/format";
 import { ViewTracker } from "@/components/view-tracker";
 import { CommentForm } from "@/components/comment-form";
 import { ReadingWidget } from "@/components/reading-widget";
