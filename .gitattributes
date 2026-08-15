@@ -1,0 +1,12 @@
+# 统一换行符:shell 脚本与部署文件强制 LF(避免 Windows 检出 CRLF 导致容器内报错)
+*.sh text eol=lf
+Dockerfile text eol=lf
+Caddyfile text eol=lf
+*.mjs text eol=lf
+*.mts text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.prisma text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

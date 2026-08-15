@@ -36,7 +36,8 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 COPY --from=builder /app/scripts ./scripts
 COPY deploy/entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+# 保险:去除可能的 CRLF(Windows 检出),避免 Linux 容器内 "bad interpreter" 报错
+RUN chmod +x ./entrypoint.sh && sed -i 's/\r$//' ./entrypoint.sh
 
 EXPOSE 3000
 CMD ["./entrypoint.sh"]
