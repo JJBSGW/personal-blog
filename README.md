@@ -1,9 +1,9 @@
 # 🎓 个人博客 personal-blog
 
-全栈动态个人博客:文章管理后台 + 中文全文搜索 + 暗色模式 + 阅读统计 + 个人简历页 + 评论 + 定时发布。
+全栈动态个人博客:文章管理后台 + 中文全文搜索 + 暗色模式 + 阅读统计 + 个人简历页 + 评论 + 定时发布 + 归档 + 封面图/媒体库 + 友链 + 相关/热门文章 + 全站 PV/UV 统计。
 
 - **GitHub**: https://github.com/JJBSGW/personal-blog
-- **技术栈**: Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · PostgreSQL · Prisma 7 · Meilisearch(规划中)· Docker Compose + Caddy(部署)
+- **技术栈**: Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · PostgreSQL · Prisma 7 · Meilisearch · Docker Compose + Caddy(部署)
 
 ## 🚀 快速开始(conda 环境)
 
