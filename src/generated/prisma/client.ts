@@ -82,6 +82,11 @@ export type Tag = Prisma.TagModel
  */
 export type ViewLog = Prisma.ViewLogModel
 /**
+ * Model VisitLog
+ * 全站访问记录(PV/UV 统计)
+ */
+export type VisitLog = Prisma.VisitLogModel
+/**
  * Model Comment
  * 评论
  */

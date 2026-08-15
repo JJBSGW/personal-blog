@@ -5,6 +5,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ParticleField } from "@/components/particle-field";
+import { VisitTracker } from "@/components/visit-tracker";
 import { getSiteConfig } from "@/lib/site-config";
 
 const geistSans = Geist({
@@ -44,6 +45,7 @@ export default function RootLayout({
         <ThemeProvider>
           {/* 粒子网络背景(浅灰点不规则运动 + 近距连线) */}
           <ParticleField />
+          <VisitTracker />
           <Header />
           <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-8">
             {children}

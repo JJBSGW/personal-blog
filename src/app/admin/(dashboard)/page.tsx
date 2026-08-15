@@ -15,32 +15,69 @@ function daysAgo(n: number): Date {
   return d;
 }
 
+function startOfToday(): Date {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
 export default async function AdminDashboard() {
-  const [totalPosts, published, drafts, viewAgg, tagCount, categoryCount, recent, viewLogs] =
-    await Promise.all([
-      prisma.post.count(),
-      prisma.post.count({ where: { status: "PUBLISHED" } }),
-      prisma.post.count({ where: { status: "DRAFT" } }),
-      prisma.post.aggregate({ _sum: { viewCount: true } }),
-      prisma.tag.count(),
-      prisma.category.count(),
-      prisma.post.findMany({
-        orderBy: { updatedAt: "desc" },
-        take: 6,
-        select: {
-          id: true,
-          title: true,
-          status: true,
-          updatedAt: true,
-          viewCount: true,
-        },
-      }),
-      // 近 30 天阅读记录(用于趋势图)
-      prisma.viewLog.findMany({
-        where: { date: { gte: daysAgo(29) } },
-        select: { date: true },
-      }),
-    ]);
+  const [
+    totalPosts,
+    published,
+    drafts,
+    viewAgg,
+    tagCount,
+    categoryCount,
+    recent,
+    viewLogs,
+    totalPv,
+    totalUvIps,
+    todayPv,
+    todayUvIps,
+  ] = await Promise.all([
+    prisma.post.count(),
+    prisma.post.count({ where: { status: "PUBLISHED" } }),
+    prisma.post.count({ where: { status: "DRAFT" } }),
+    prisma.post.aggregate({ _sum: { viewCount: true } }),
+    prisma.tag.count(),
+    prisma.category.count(),
+    prisma.post.findMany({
+      orderBy: { updatedAt: "desc" },
+      take: 6,
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        updatedAt: true,
+        viewCount: true,
+      },
+    }),
+    // 近 30 天阅读记录(用于趋势图)
+    prisma.viewLog.findMany({
+      where: { date: { gte: daysAgo(29) } },
+      select: { date: true },
+    }),
+    // 全站 PV
+    prisma.visitLog.count(),
+    // 全站 UV(去重 IP)
+    prisma.visitLog.findMany({ distinct: ["ip"], select: { ip: true } }),
+    // 今日 PV
+    prisma.visitLog.count({ where: { date: { gte: startOfToday() } } }),
+    // 今日 UV
+    prisma.visitLog.findMany({
+      where: { date: { gte: startOfToday() } },
+      distinct: ["ip"],
+      select: { ip: true },
+    }),
+  ]);
+
+  const siteStats = {
+    totalPv,
+    totalUv: totalUvIps.length,
+    todayPv,
+    todayUv: todayUvIps.length,
+  };
 
   // 按本地日期聚合
   const buckets = new Map<string, number>();
@@ -95,6 +132,29 @@ export default async function AdminDashboard() {
           </div>
         ))}
       </div>
+
+      {/* 全站访问统计 */}
+      <section>
+        <h2 className="mb-3 text-lg font-semibold">全站访问</h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {[
+            { label: "总 PV(页面浏览)", value: siteStats.totalPv },
+            { label: "总 UV(独立访客)", value: siteStats.totalUv },
+            { label: "今日 PV", value: siteStats.todayPv },
+            { label: "今日 UV", value: siteStats.todayUv },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="rounded-xl border border-zinc-200 p-4 dark:border-zinc-800"
+            >
+              <p className="text-2xl font-bold">{s.value}</p>
+              <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                {s.label}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section>
         <div className="mb-3 flex items-baseline justify-between">

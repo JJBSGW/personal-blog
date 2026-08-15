@@ -405,6 +405,7 @@ export const ModelName = {
   Category: 'Category',
   Tag: 'Tag',
   ViewLog: 'ViewLog',
+  VisitLog: 'VisitLog',
   Comment: 'Comment',
   Resume: 'Resume'
 } as const
@@ -422,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "siteConfig" | "friendLink" | "post" | "category" | "tag" | "viewLog" | "comment" | "resume"
+    modelProps: "user" | "session" | "siteConfig" | "friendLink" | "post" | "category" | "tag" | "viewLog" | "visitLog" | "comment" | "resume"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1018,6 +1019,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    VisitLog: {
+      payload: Prisma.$VisitLogPayload<ExtArgs>
+      fields: Prisma.VisitLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VisitLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VisitLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>
+        }
+        findFirst: {
+          args: Prisma.VisitLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VisitLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>
+        }
+        findMany: {
+          args: Prisma.VisitLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>[]
+        }
+        create: {
+          args: Prisma.VisitLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>
+        }
+        createMany: {
+          args: Prisma.VisitLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VisitLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>[]
+        }
+        delete: {
+          args: Prisma.VisitLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>
+        }
+        update: {
+          args: Prisma.VisitLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.VisitLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VisitLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VisitLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.VisitLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VisitLogPayload>
+        }
+        aggregate: {
+          args: Prisma.VisitLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVisitLog>
+        }
+        groupBy: {
+          args: Prisma.VisitLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VisitLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VisitLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VisitLogCountAggregateOutputType> | number
+        }
+      }
+    }
     Comment: {
       payload: Prisma.$CommentPayload<ExtArgs>
       fields: Prisma.CommentFieldRefs
@@ -1301,6 +1376,17 @@ export const ViewLogScalarFieldEnum = {
 } as const
 
 export type ViewLogScalarFieldEnum = (typeof ViewLogScalarFieldEnum)[keyof typeof ViewLogScalarFieldEnum]
+
+
+export const VisitLogScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  date: 'date'
+} as const
+
+export type VisitLogScalarFieldEnum = (typeof VisitLogScalarFieldEnum)[keyof typeof VisitLogScalarFieldEnum]
 
 
 export const CommentScalarFieldEnum = {
@@ -1620,6 +1706,7 @@ export type GlobalOmitConfig = {
   category?: Prisma.CategoryOmit
   tag?: Prisma.TagOmit
   viewLog?: Prisma.ViewLogOmit
+  visitLog?: Prisma.VisitLogOmit
   comment?: Prisma.CommentOmit
   resume?: Prisma.ResumeOmit
 }

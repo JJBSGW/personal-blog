@@ -113,6 +113,18 @@ model ViewLog {
   @@index([postId, date])
 }
 
+/// 全站访问记录(PV/UV 统计)
+model VisitLog {
+  id        String   @id @default(cuid())
+  path      String
+  ip        String?
+  userAgent String?
+  date      DateTime @default(now())
+
+  @@index([date])
+  @@index([ip, date])
+}
+
 /// 评论
 model Comment {
   id        String   @id @default(cuid())

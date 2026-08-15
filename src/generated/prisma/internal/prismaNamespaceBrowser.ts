@@ -59,6 +59,7 @@ export const ModelName = {
   Category: 'Category',
   Tag: 'Tag',
   ViewLog: 'ViewLog',
+  VisitLog: 'VisitLog',
   Comment: 'Comment',
   Resume: 'Resume'
 } as const
@@ -175,6 +176,17 @@ export const ViewLogScalarFieldEnum = {
 } as const
 
 export type ViewLogScalarFieldEnum = (typeof ViewLogScalarFieldEnum)[keyof typeof ViewLogScalarFieldEnum]
+
+
+export const VisitLogScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  ip: 'ip',
+  userAgent: 'userAgent',
+  date: 'date'
+} as const
+
+export type VisitLogScalarFieldEnum = (typeof VisitLogScalarFieldEnum)[keyof typeof VisitLogScalarFieldEnum]
 
 
 export const CommentScalarFieldEnum = {
